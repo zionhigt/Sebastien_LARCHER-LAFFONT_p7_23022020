@@ -1,0 +1,156 @@
+header
+{
+	position: fixed;
+	width: 100%;
+	top:0;
+	z-index: 200;
+}
+main
+{
+	margin-top: 240px!important;
+}
+@media all and (min-width: 340px)
+{
+	main
+	{
+		margin-top: 180px!important;
+	}
+}
+form
+{
+	width: 60%;
+	margin: auto;
+}
+section, .view__aside--right
+{
+	overflow-y: scroll;
+	height: 80vh;
+}
+.collapsible li
+{
+	padding: 15px;
+}
+
+.comment__name
+{
+	font-weight: bold;
+
+}
+
+.comment__date
+{
+	color: #858585;
+	font-size: 13px;
+}
+label
+{
+	font-size: 16px;
+}
+.eye
+{
+	position: absolute;
+	right: 0;
+}
+button
+{
+	margin: 5% auto;
+}
+textarea
+{
+	width: 100%;
+}
+
+#onlineContainer
+{
+	padding: 15px;
+}
+ul#onlineList
+{
+	left: 15px!important;
+}
+.profil__image--user img
+{
+	width: 100%;
+	object-fit: contain;
+}
+
+[type="checkbox"]+span:not(.lever):before, [type="checkbox"]:not(.filled-in)+span:not(.lever):after
+{
+	display: none!important;
+}
+.input-field input:focus
+{
+	border-bottom: 1px solid #212121!important;
+	box-shadow: 0 1px 0 0 #212121 !important;
+	position: relative;
+	width: 100%;
+
+}
+.input-field label
+{
+	color: #424242;
+}
+.nav
+{
+	display: flex;
+	justify-content: space-between;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.card-footer
+{
+	padding: 24px;
+}
+
+.card-footer__date p
+{
+	color: #424242;
+	margin-top: 0;
+	text-align: right;
+
+}
+
+.card-header
+{
+	padding: 15px;
+}
+
+.like-palet
+{
+	text-align: center;
+}
+
+.view__center
+{
+	background-color: #f2f2f2;
+}
+ .material-icons
+ {
+ 	color: #424242;
+ 	margin-right: 15px;
+ }
+
+.active i, i:hover
+{
+	color: #FD2D01;
+}
+.navContent
+{
+	width: auto;
+}
+
+.logo
+{
+	object-fit: cover;
+	justify-self: left;
+	width: 300px;
+	height: 100px;
+}
+
+
+
+.profil__input
+{
+	display: flex;
+}
