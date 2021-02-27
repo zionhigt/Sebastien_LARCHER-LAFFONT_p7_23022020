@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header.js';
 
 import User from '../data/userData.js';
+import * as API from '../api/api.js';
 
 
 class Profil extends Component {
@@ -19,6 +20,15 @@ class Profil extends Component {
 		this.lastNameHandler = this.lastNameHandler.bind(this);
 		this.emailHandler = this.emailHandler.bind(this);
 		this.pictureHandler = this.pictureHandler.bind(this);
+	}
+	componentDidMount()
+	{
+		API.getProfil()
+		.then(profil => {
+			console.log(profil)
+			this.setState({...profil});
+		})
+		.catch(error => {console.log({ error })});
 	}
 
 	modifyHandler(e){

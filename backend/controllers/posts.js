@@ -1,7 +1,7 @@
 const Posts = require('../models/Posts');
 
-exports.getAll = (req, res)=>{
 
+exports.getAll = (req, res)=>{
 	Posts.getPosts()
 	.then(posts => {
 		res.status(200).json({ posts });

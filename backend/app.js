@@ -10,6 +10,15 @@ const User = require('./models/User.js')
 
 const path = require('path');
 
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+
+const DB = require('./models/DataBase');
+
+
+const sessionStore = new MySQLStore(DB.options);
+
+
 
 
 
@@ -19,13 +28,25 @@ const path = require('path');
 
 const app = express();
 
+
+
 app.use((req, res, next)=>{
-	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 	res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
 	next();
 });
 
+
+app.use(session({
+	key: 'session_cookie_name',
+	secret: 'session_cookie_secret',
+	store: sessionStore,
+	resave: false,
+	saveUninitialized: false,
+	cookie: { path: '/', _expires: null, originalMaxAge: 86400000, httpOnly: true, sameSite: 'lax', secure: false}
+}));
 app.use(bodyParser.json());
 
 /////////////// Joining routes ///////////////////////

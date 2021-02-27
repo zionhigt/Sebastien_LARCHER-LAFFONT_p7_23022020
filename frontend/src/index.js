@@ -5,8 +5,8 @@ import App from './App.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const elemDropDown = document.querySelectorAll('.dropdown-trigger');
-    const container = document.getElementById('onlineContainer');
-    const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right', container: container});
+    const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
+    
   });
 
 ReactDOM.render(<App/>, document.getElementById('root'))

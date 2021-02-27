@@ -6,11 +6,13 @@ class Form extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {email: "", password: "", confirmPassword: "", error: ""};
+		this.state = {firstName: "", lastName: "", email: "", password: "", confirmPassword: "", error: ""};
 
 		this.submitHandler = this.submitHandler.bind(this);
 		this.emailHandler = this.emailHandler.bind(this);
 		this.passwordHandler = this.passwordHandler.bind(this);
+		this.firstNameHandler = this.firstNameHandler.bind(this);
+		this.lastNameHandler = this.lastNameHandler.bind(this);
 		this.confirmPasswordHandler = this.confirmPasswordHandler.bind(this);
 	}
 	
@@ -19,7 +21,16 @@ class Form extends Component {
 		e.preventDefault();
 		if(this.state.error == "" && this.state.email != "")
 		{
-			API.signup({email: this.state.email, password: this.state.password})
+			let body = {email: this.state.email, password: this.state.password};
+			if(this.state.firstName != "" && this.state.lastName != "")
+			{
+				body = {
+					...body,
+					firstName: this.state.firstName,
+					lastName: this.state.lastName
+				}
+			}
+			API.signup(body)
 			.then(res => {
 				if(res.error)
 				{
@@ -28,6 +39,7 @@ class Form extends Component {
 				else
 				{
 					this.setState({error: ""});
+					console.log(res.isProfil);
 					window.location = "/?#/signin"
 				}
 			})
@@ -44,6 +56,12 @@ class Form extends Component {
 
 	emailHandler(e){
 		this.setState({email: e.target.value});
+	}
+	firstNameHandler(e){
+		this.setState({firstName: e.target.value});
+	}
+	lastNameHandler(e){
+		this.setState({lastName: e.target.value});
 	}
 
 	passwordHandler(e){
@@ -80,11 +98,11 @@ class Form extends Component {
 				<form onSubmit={this.submitHandler}>
 					<div className="row">
 				        <div className="input-field col s6">
-				          <input id="first_name_signup" type="text" className="validate" />
+				          <input id="first_name_signup" type="text" className="validate" value={this.state.firstName} onChange={this.firstNameHandler} />
 				          <label htmlFor="first_name_signup">Prénom</label>
 				        </div>
 				        <div className="input-field col s6">
-				          <input id="last_name_signup" type="text" className="validate" />
+				          <input id="last_name_signup" type="text" className="validate" value={this.state.lastName} onChange={this.lastNameHandler} />
 				          <label htmlFor="last_name_signup">Nom</label>
 				        </div>
 				     </div>

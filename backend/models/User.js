@@ -60,4 +60,37 @@ exports.deleteUser = customer =>{
 	});
 };
 
+exports.createProfil = Profil =>{
+	let query = 'INSERT INTO Profils (firstName, lastName, user_id, created_date, picture) VALUES (?, ?, (SELECT id FROM Users WHERE email=?), NOW(), ?)';
+	query = mysql.format(query, Profil);
+	console.log(query);
+	return new Promise((resolv, reject) => {
+		DB.dbConnect.query(query, (error, res, field) => {
+			if (error) reject(error);
+			resolv(res);
+		});
+	});
+};
 
+exports.updateProfil = Profil =>{
+	let query = 'UPDATE  Profils SET ??=?, ??=? WHERE ??=?';
+	query = mysql.format(query, Profil);
+	return new Promise((resolv, reject) => {
+		DB.dbConnect.query(query, (error, res, field) => {
+			if (error) reject(error);
+			resolv(res);
+		});
+	});
+};
+
+exports.getProfil = (id) => {
+	let query = 'SELECT firstName, lastName, picture FROM Profils WHERE user_id = ?';
+	query = mysql.format(query, [id]);
+	console.log(query);
+	return new Promise((resolv, reject) => {
+		DB.dbConnect.query(query, (error, res, field) => {
+			if (error) reject(error);
+			resolv(JSON.parse(JSON.stringify(res)));
+		});
+	});
+}

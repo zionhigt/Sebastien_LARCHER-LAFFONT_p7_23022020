@@ -23,12 +23,13 @@ class Singin extends Component {
 			.then(res => {
 				if(res.error)
 				{
+					console.log(res.error)
 					this.setState({error: res.error})
 				}
 				else
 				{
 					this.setState({error: ""});
-					window.location = "/?#/profil"
+					window.location = "/?#/forum"
 				}
 			})
 			.catch(error => {console.log(error)});

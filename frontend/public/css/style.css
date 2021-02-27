@@ -1,3 +1,8 @@
+html
+{
+	color: #414141;
+}
+
 header
 {
 	position: fixed;
@@ -9,17 +14,23 @@ main
 {
 	margin-top: 240px!important;
 }
+form
+{
+	width: auto;
+	margin: auto 20px;
+}
 @media all and (min-width: 340px)
 {
 	main
 	{
-		margin-top: 180px!important;
+		margin-top: 200px!important;
 	}
-}
-form
-{
-	width: 60%;
-	margin: auto;
+
+	form
+	{
+		width: 60%;
+		margin: auto;
+	}
 }
 section, .view__aside--right
 {
@@ -31,6 +42,14 @@ section, .view__aside--right
 	padding: 15px;
 }
 
+.comment
+{
+	margin-bottom: 30px;
+}
+.comment p
+{
+	margin: 5px auto !important;
+}
 .comment__name
 {
 	font-weight: bold;
@@ -50,6 +69,19 @@ label
 {
 	position: absolute;
 	right: 0;
+}
+.exit
+{
+	margin-right: 30px;
+	margin-left: auto;
+	margin-top: 10%;
+	width: 50%;
+	border-bottom: 2px solid #cacaca;
+}
+.exit i
+{
+	margin-left: auto;
+	margin-right: 0;
 }
 button
 {

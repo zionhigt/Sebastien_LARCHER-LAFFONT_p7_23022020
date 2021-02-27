@@ -95,7 +95,7 @@ CREATE TABLE `Profils` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `firstName` varchar(40) NOT NULL,
   `lastName` varchar(40) NOT NULL,
-  `picture` varchar(40) NOT NULL,
+  `picture` varchar(128),
   `friends` varchar(255) DEFAULT '[]',
   `user_id` int(10) unsigned NOT NULL,
   `created_date` datetime NOT NULL,

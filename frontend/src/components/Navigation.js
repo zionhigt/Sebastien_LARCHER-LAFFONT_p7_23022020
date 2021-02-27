@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {NavLink, Route, HashRouter} from 'react-router-dom';
 
+
 class Nav extends Component {
 
 	render (){
@@ -29,6 +30,7 @@ class Nav extends Component {
 					<NavLink to="/setting">
 						<i className="material-icons">settings</i>
 					</NavLink>
+					
 					<NavLink to="/home">
 						<i className="material-icons">home</i>
 					</NavLink>
