@@ -8,6 +8,7 @@ import Header from './Header.js';
 import OnlineUser from './OnlineUser.js';
 import Post from './Post.js';
 import PostBar from './PostBar.js';
+import EditPost from './EditPost.js';
 
 import * as API from '../api/api.js'; 
 
@@ -42,9 +43,54 @@ class TopPosts extends Component {
 class Forum extends Component {
 	constructor(props){
 		super(props);
-		this.state = {onlineUsers: [], posts: [] };
+		this.state = {onlineUsers: [], posts: [], currentUser: {}, dataPosts: [] };
+		this.onLikeChange = this.onLikeChange.bind(this);
 	}
+	builtinPost(){
+		const listPosts = this.state.dataPosts.map(post => {
+				// const likes = JSON.parse(post.likes);
+				let likes = post.likes.split('[').join("");
+				likes = likes.split(']').join("");
+				likes = likes.split(',');
+
+				let dislikes = post.dislikes.split('[').join("");
+				dislikes = dislikes.split(']').join("");
+				dislikes = dislikes.split(',');
+
+				// const dislikes = JSON.parse(post.dislikes);
+				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+				const date = new Date(post.date);
+				return( <Post
+					onLikePost={this.onLikeChange}
+					likes={likes}
+					dislikes={dislikes}
+					onlineColor={(post.userActive) ? "green":"red"} 
+					postedBy={`${post.firstName} ${post.lastName}`} 
+					key={post.id} 
+					idkey={post.id} 
+					title={post.title} 
+					picture={post.media} 
+					text={post.description}
+					userPicture={post.picture}
+					commentCount={post.comment_count}
+					currentUserPicture={this.state.currentUser.picture}
+					currentUserId={this.state.currentUser.id}
+					date={date.toLocaleDateString(undefined, options)+" à "+date.getHours()+"h"+date.getMinutes()}/>);
+			});
+			this.setState({posts: listPosts});
+	};
 	componentDidMount(){
+		API.getProfil()
+		.then(profil=>{
+			if(profil.length != undefined)
+			{
+				profil = profil[0];
+			}
+			this.setState({currentUser: profil});
+			console.log(profil.length, "here")
+		})
+		.catch(error=>{console.log(error)});
+		
 		API.other()
 		.then(users =>{
 			const listOnlineUsers = users.map(user => {
@@ -64,22 +110,8 @@ class Forum extends Component {
 			{
 				window.location = "/?#/signin";
 			}
-			const listPosts = posts.posts.map(post => {
-				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-				const date = new Date(post.date);
-				return( <Post 
-					onlineColor={(post.userActive) ? "green":"red"} 
-					postedBy={`${post.firstName} ${post.lastName}`} 
-					key={post.id} 
-					idkey={post.id} 
-					title={post.title} 
-					picture={post.media} 
-					text={post.description}
-					userPicture={post.picture}
-					commentCount={post.comment_count}
-					date={date.toLocaleDateString(undefined, options)+" à "+date.getHours()+"h"+date.getMinutes()}/>);
-			});
-			this.setState({posts: listPosts});
+			this.setState({dataPosts: posts.posts});
+			this.builtinPost();
 			const elemCircle = document.querySelectorAll('.card-header .circle, .card-footer .circle');
 
 			elemCircle.forEach(elem => {
@@ -87,8 +119,32 @@ class Forum extends Component {
 		    });
 		})
 		.catch(error => {console.log(error)});
+
+		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
+		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
+		
 		
 
+	}
+
+	onLikeChange(e){
+		let old_post = {};
+		this.state.dataPosts.forEach(p => {
+			if(p.id == parseInt(e))
+			{
+				old_post = p;
+			}
+		});
+		API.getOnePost(e)
+		.then(post => {
+			console.log(post.post[0])
+			const indexOfPost = this.state.dataPosts.indexOf(old_post);
+			let newPosts = this.state.dataPosts;
+			newPosts.splice(indexOfPost, 1, post.post[0]);
+			this.setState({dataPosts: newPosts});
+			this.builtinPost();
+		})
+		.catch(error => {console.log(error)});
 	}
 	render(){
 		return (
@@ -102,7 +158,8 @@ class Forum extends Component {
 						</div>
 					</aside>
 					<section className="view__center section col s12 l6">
-						<PostBar/>
+						<EditPost />
+						<PostBar picture={this.state.currentUser.picture} firstName={this.state.currentUser.firstName} lastName={this.state.currentUser.lastName} />
 						<div className="row">{this.state.posts}</div>
 						
 					</section>

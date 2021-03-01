@@ -41,6 +41,12 @@ export async function posts(){
 	return request.json();
 
 };
+export async function getOnePost(id){
+
+	const request = await fetch(`http://localhost:3001/api/posts/${id}`, {credentials: 'include'});
+	return request.json();
+
+};
 
 export async function other(){
 
@@ -53,7 +59,7 @@ export async function other(){
 
 export async function getCommentByPostId(id){
 
-	const request = await fetch('http://localhost:3001/api/comments/'+id, {credentials: 'include'});
+	const request = await fetch(`http://localhost:3001/api/comments/${id}`, {credentials: 'include'});
 
 	return request.json();
 	
@@ -90,6 +96,60 @@ export async function sendComment(body){
  		}
 	);
 
+	return request.json();
+	
+
+};
+
+export async function setProfil(body){
+
+	const request = await fetch('http://localhost:3001/api/auth/profil', 
+		{
+			method: "PUT",
+			body: body,
+			credentials: 'include',
+			headers: {                           
+  				"x-Content-Type": "multipart/form-data"    
+ 			} 		
+ 		}
+	);
+
+	return request.json();
+	
+
+};
+
+export async function postOne(body){
+	console.log(body)
+	const request = await fetch('http://localhost:3001/api/posts', 
+		{
+			method: "post",
+			body: body,
+			credentials: 'include',
+			headers: {                           
+  				"x-Content-Type": "multipart/form-data"    
+ 			} 		
+ 		}
+	);
+
+	return request.json();
+	
+
+};
+
+export async function likePost(like, id){
+
+	const request = await fetch(`http://localhost:3001/api/posts/like/${id}`, 
+		{
+			method: "POST",
+			body: JSON.stringify({ like }),
+			credentials: 'include',
+			headers: {                           
+  				"Content-Type": "application/json"    
+ 			} 		
+ 		}
+	);
+	console.log(request)
 	return request.json();
 	
 

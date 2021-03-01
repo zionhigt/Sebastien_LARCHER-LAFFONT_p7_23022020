@@ -72,19 +72,28 @@ exports.createProfil = Profil =>{
 	});
 };
 
-exports.updateProfil = Profil =>{
-	let query = 'UPDATE  Profils SET ??=?, ??=? WHERE ??=?';
-	query = mysql.format(query, Profil);
+exports.updateProfil = (profil, id) =>{
+	const payload = [...Object.values(profil), id]
+	console.log(profil)
+  // Preparing mysql query
+  	let query = mysql.format(`UPDATE Profils SET ${Object.keys(profil).join(' = ?, ')}= ? WHERE id = ?`, payload);
 	return new Promise((resolv, reject) => {
-		DB.dbConnect.query(query, (error, res, field) => {
-			if (error) reject(error);
-			resolv(res);
-		});
+		if(JSON.stringify(profil).length > 2)
+		{
+			DB.dbConnect.query(query, (error, res, field) => {
+				if (error) reject(error);
+				resolv(res);
+			});
+		}
+		else
+		{
+			reject({message: "Rien n'a changé !"})
+		}
 	});
 };
 
 exports.getProfil = (id) => {
-	let query = 'SELECT firstName, lastName, picture FROM Profils WHERE user_id = ?';
+	let query = 'SELECT id, firstName, lastName, picture FROM Profils WHERE user_id = ?';
 	query = mysql.format(query, [id]);
 	console.log(query);
 	return new Promise((resolv, reject) => {

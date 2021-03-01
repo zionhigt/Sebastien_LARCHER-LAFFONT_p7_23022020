@@ -6,43 +6,39 @@ class PostBar extends Component {
 
 	constructor(props){
 		super(props)
-		this.state = {text: "", firstName: "", lastName:"", picture:""};
-		this.textChangeHandler = this.textChangeHandler.bind(this);
-		this.submitPostHandler = this.submitPostHandler.bind(this);
+		this.state = {firstName: "", lastName:"", postPicture: ""};
+		this.editFocusHandler = this.editFocusHandler.bind(this);
+		
+
 	}
 	componentDidMount()
 	{
-		API.getProfil()
-		.then(profil=>{
-			this.setState({...profil});
-		})
-		.catch(error=>{console.log(error)});
+		console.log(this.props);
+		this.setState({firstName: this.props.firstName, lastName:this.props.lastName, picture:this.props.picture})
+
+		
+
 	}
-	textChangeHandler(e){
-		this.setState({text: e.target.value});
+	editFocusHandler(e){
+		const modal = document.getElementById('modal1');
+		console.log(modal);
+    	const modalInstances = M.Modal.init(modal);
+		modalInstances.open();
 	}
 
-	submitPostHandler(e){
-		e.preventDefault();
-		console.log(this.state.text);
-	}
+	
 	render(){
 
 		return(
 			<div className="card-panel row">
-				<div className="col s12 row valign-wrapper">
-		    		<img className="circle col s2 m1 responsive-img"  src={this.state.picture} />
-					<h5 className="col s11">{this.state.firstName} {this.state.lastName}</h5>
+				<div className="col s12 row valign-wrapper card-header">
+		    		<img className="circle col s2 m2 responsive-img"  src={this.props.picture} />
+					<h5 className="col s11">{this.props.firstName} {this.props.lastName}</h5>
 				</div>
-				<div className="col s12">
-					<textarea id="postEdit" className="" onChange={this.textChangeHandler} ></textarea>
-					<input type="submit" value="Publier" onClick={this.submitPostHandler} />
-					<div className="edit__palet">
-						<label htmlFor="postEdit"><i className="material-icons edit_icon">mode_edit</i></label>
-						<i className="material-icons">attachment</i>
-						<i className="material-icons">panorama</i>
+				<div className="input-field col s12">
+						<input id="editPost"className="validate" onFocus={this.editFocusHandler}/>
+						<label htmlFor="editPost">Exprimez vous !</label>
 					</div>
-				</div>
 			</div>
 			);
 	};

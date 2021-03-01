@@ -92,6 +92,11 @@ textarea
 	width: 100%;
 }
 
+.thumb
+{
+	margin-right: 15px;
+}
+
 #onlineContainer
 {
 	padding: 15px;
@@ -100,10 +105,26 @@ ul#onlineList
 {
 	left: 15px!important;
 }
-.profil__image--user img
+
+.modal .containerImg
+{
+	position: relative;
+	max-width: 100px;
+}
+.modal img
+{
+	max-width: 100px;
+}
+.modal .closeImg
+{
+	position: absolute;
+	right: -10px;
+	top: -10px;
+}
+img
 {
 	width: 100%;
-	object-fit: contain;
+	object-fit: cover;
 }
 
 [type="checkbox"]+span:not(.lever):before, [type="checkbox"]:not(.filled-in)+span:not(.lever):after

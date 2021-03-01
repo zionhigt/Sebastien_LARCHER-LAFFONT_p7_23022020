@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 exports.debug = (req, res) => {
 	console.log(req.headers);
@@ -122,6 +123,50 @@ exports.getUserProfil = (req, res) => {
 	{
 		res.status(200).json(req.session.profil);
 	}
+};
+
+exports.setUserProfil = (req, res) => {
+
+	if(!req.session.profil)
+	{
+		User.getProfil(req.session.user.id)
+		.then(profil => {
+			req.session.profil = profil[0];
+		})
+		.catch(error => {console.log(error); res.status(500).json({ error })});
+
+	}
+	const body = JSON.parse(req.body.body)
+	let profil = body;
+	Object.keys(body).forEach(key => {
+		if(body[key] === req.session.profil[key] || body[key] == "")
+		{
+			delete profil[key]
+		}
+	});
+	console.log(req.file);
+	if(req.file != undefined)
+	{
+		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+		profil = {
+			...profil,
+			 picture: imagePath
+		}
+		const filename = req.session.profil.picture.split('/images/')[1]
+		fs.unlink(`images/${filename}`, ()=>{});
+	}
+	User.updateProfil(profil , req.session.profil.id)
+	.then(() => {
+
+		User.getProfil(req.session.user.id)
+		.then(profil => {
+			req.session.profil = profil[0];
+			res.status(200).json(profil);
+		})
+		.catch(error => {console.log(error); res.status(500).json({ error })});			
+	})
+	.catch(error => {console.log(error); res.status(500).json({ error })});
+
 };
 
 exports.getConnected = (req, res) => {

@@ -18,7 +18,6 @@ exports.getByPostId = (id) =>{
 exports.sendComment = (body) =>{
 	let query = 'INSERT INTO Comments (comment_text, post_id, profil_id, comment_date) VALUES (?, ?, (SELECT id FROM Profils WHERE user_id = ?), NOW())';
 	query = mysql.format(query, [body.text, body.post_id, body.user_id]);
-	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);

@@ -13,7 +13,6 @@ exports.postComment = (req, res) => {
 		...req.body,
 		 user_id: req.session.user.id,
 	}
-	console.log(body);
 	Comments.sendComment(body)
 	.then(comments => {
 		res.status(200).json({message: "Commentaire publié"});
