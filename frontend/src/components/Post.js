@@ -10,27 +10,13 @@ class Post extends Component {
 	constructor(props){
 
 		super(props);
-		this.state = {editComment: ""};
-		this.editCommentHandler = this.editCommentHandler.bind(this);
-		this.submitCommentHandler = this.submitCommentHandler.bind(this);
+		this.state = {postId: ""};
 		this.likePostHandler = this.likePostHandler.bind(this);
 	}
 
-	editCommentHandler(e){
-
-		this.setState({editComment: e.target.value});
-	}
-
-	submitCommentHandler(e){
-		e.preventDefault();
-		console.log(this.state.comment);
-		const body = {
-			text: this.state.editComment,
-			post_id: this.props.idkey,
-		};
-		API.sendComment(body)
-		.then(() => {})
-		.catch(error => {console.log(error)});
+	componentDidMount()
+	{
+		this.setState({postId: this.props.idkey})
 	}
 
 	likePostHandler(like)
@@ -40,7 +26,7 @@ class Post extends Component {
 			API.likePost(like, this.props.idkey)
 			.then(() => {
 				// window.location.reload(false);
-				this.props.onLikePost(this.props.idkey)
+				this.props.onChangePost(this.props.idkey)
 			})
 			.catch(error => {console.log(error)});
 			});
@@ -55,8 +41,8 @@ class Post extends Component {
 		      <div className="card">
 		      	<div className="card-header valign-wrapper row">
 		    		<img className="circle responsive-img col s2" src={this.props.userPicture} />
-		      		<p className="col s10 valign-wrapper">
-		      			<i className={"material-icons " + this.props.onlineColor + "-text"}>brightness_1</i>
+		      		<p className="col s10 valign-wrapper post__name">
+		      			{(this.props.currentUserId == this.props.postedById) ? null : <i className={"material-icons " + this.props.onlineColor + "-text"}>brightness_1</i>}
 		      			
 		      			{this.props.postedBy}
 		      		</p>
@@ -88,16 +74,8 @@ class Post extends Component {
 
 
 		       	</div>
-		       	{(this.props.commentCount > 0) ? <Comments post_id={this.props.idkey} numberOf={this.props.commentCount} /> : null}
-		       	<div className="row valign-wrapper">
-		    		<img className="circle col s2 m1 align-center responsive-img"  src={this.props.currentUserPicture} />
-		    		<div className="input-field col s11">
-		    			<input id={this.props.idkey + "_comment"} type="text" value={this.state.editComment} onChange={this.editCommentHandler} className="validate" />
-		    			<label htmlFor={this.props.idkey + "_comment"}>Commentaire: </label>
-		    			<input type="submit" value="Envoyer" onClick={this.submitCommentHandler} />
-		    		</div>
-		       		
-		       	</div>
+		       	<Comments post_id={this.props.idkey} numberOf={this.props.commentCount} currentUserId={this.props.currentUserId} currentUserPicture={this.props.currentUserPicture} />
+		       	
 		       </div>
 		      </div>
 		    </div>

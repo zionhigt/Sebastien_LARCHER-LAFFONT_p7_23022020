@@ -114,6 +114,7 @@ exports.getUserProfil = (req, res) => {
 		User.getProfil(req.session.user.id)
 		.then(profil => {
 			req.session.profil = profil[0];
+			rq.session.profil.isActive = 1;
 			res.status(200).json(profil);
 		})
 		.catch(error => {console.log(error); res.status(500).json({ error })});
@@ -132,6 +133,7 @@ exports.setUserProfil = (req, res) => {
 		User.getProfil(req.session.user.id)
 		.then(profil => {
 			req.session.profil = profil[0];
+			rq.session.profil.isActive = 1;
 		})
 		.catch(error => {console.log(error); res.status(500).json({ error })});
 

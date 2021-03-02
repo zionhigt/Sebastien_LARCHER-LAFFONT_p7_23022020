@@ -48,7 +48,7 @@ class EditPost extends Component {
 		}
 		formData.append('image', this.pictureInput.current.files[0]);
 		API.postOne(formData)
-		.then(() => {console.log("posted")})
+		.then(() => {this.props.onPosted()})
 		.catch(error => {console.log({ error })});
 	}
 

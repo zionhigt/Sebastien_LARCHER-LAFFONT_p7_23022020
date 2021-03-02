@@ -94,7 +94,7 @@ class Form extends Component {
 
 		return (
 			<div className="center">
-				<p>Créer un compte ?</p>
+				<h3 className="signup__title">Créer un compte ?</h3>
 				<form onSubmit={this.submitHandler}>
 					<div className="row">
 				        <div className="input-field col s6">

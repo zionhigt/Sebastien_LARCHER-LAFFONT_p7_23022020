@@ -44,7 +44,8 @@ class Forum extends Component {
 	constructor(props){
 		super(props);
 		this.state = {onlineUsers: [], posts: [], currentUser: {}, dataPosts: [] };
-		this.onLikeChange = this.onLikeChange.bind(this);
+		this.onChange = this.onChange.bind(this);
+		this.getAllPosts = this.getAllPosts.bind(this);
 	}
 	builtinPost(){
 		const listPosts = this.state.dataPosts.map(post => {
@@ -61,11 +62,12 @@ class Forum extends Component {
 				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 				const date = new Date(post.date);
 				return( <Post
-					onLikePost={this.onLikeChange}
+					onChangePost={this.onChange}
 					likes={likes}
 					dislikes={dislikes}
 					onlineColor={(post.userActive) ? "green":"red"} 
-					postedBy={`${post.firstName} ${post.lastName}`} 
+					postedBy={`${post.firstName} ${post.lastName}`}
+					postedById={post.posted_by_id} 
 					key={post.id} 
 					idkey={post.id} 
 					title={post.title} 
@@ -103,7 +105,16 @@ class Forum extends Component {
 		})
 		.catch(error => {console.log(error)});
 		
+		this.getAllPosts();
 
+		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
+		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
+		
+		
+
+	}
+
+	getAllPosts(){
 		API.posts()
 		.then(posts => {
 			if(posts.error)
@@ -119,15 +130,9 @@ class Forum extends Component {
 		    });
 		})
 		.catch(error => {console.log(error)});
-
-		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
-		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
-		
-		
-
 	}
 
-	onLikeChange(e){
+	onChange(e){
 		let old_post = {};
 		this.state.dataPosts.forEach(p => {
 			if(p.id == parseInt(e))
@@ -158,17 +163,16 @@ class Forum extends Component {
 						</div>
 					</aside>
 					<section className="view__center section col s12 l6">
-						<EditPost />
-						<PostBar picture={this.state.currentUser.picture} firstName={this.state.currentUser.firstName} lastName={this.state.currentUser.lastName} />
+						
 						<div className="row">{this.state.posts}</div>
 						
 					</section>
 					<aside className="view__aside--right col s12 l3 row">
-						<p>Le top Hebdo <i className="material-icons">arrow_upward</i></p>
-						<TopPosts />
+						<EditPost onPosted={this.getAllPosts} />
+						<PostBar picture={this.state.currentUser.picture} firstName={this.state.currentUser.firstName} lastName={this.state.currentUser.lastName} />
 					</aside>
 				</main>
-
+					
 			</div>
 			);
 	};

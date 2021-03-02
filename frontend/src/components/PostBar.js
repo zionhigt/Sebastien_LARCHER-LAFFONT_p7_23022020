@@ -32,7 +32,7 @@ class PostBar extends Component {
 		return(
 			<div className="card-panel row">
 				<div className="col s12 row valign-wrapper card-header">
-		    		<img className="circle col s2 m2 responsive-img"  src={this.props.picture} />
+		    		<img className="circle responsive-img col s12"  src={this.props.picture} />
 					<h5 className="col s11">{this.props.firstName} {this.props.lastName}</h5>
 				</div>
 				<div className="input-field col s12">

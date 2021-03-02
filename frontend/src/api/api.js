@@ -149,7 +149,23 @@ export async function likePost(like, id){
  			} 		
  		}
 	);
-	console.log(request)
+	return request.json();
+	
+
+};
+
+export async function likeComment(like, id){
+
+	const request = await fetch(`http://localhost:3001/api/comments/like/${id}`, 
+		{
+			method: "POST",
+			body: JSON.stringify({ like }),
+			credentials: 'include',
+			headers: {                           
+  				"Content-Type": "application/json"    
+ 			} 		
+ 		}
+	);
 	return request.json();
 	
 

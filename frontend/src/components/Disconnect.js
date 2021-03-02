@@ -18,7 +18,7 @@ class Disconnect extends Component {
 
 	render(){
 		return(
-			<span className='exit valign-wrapper' onClick={this.clickHandler} >Se déconnecter <i className="material-icons">exit_to_app</i></span>
+			<span className={`exit valign-wrapper ${this.props.className}`} onClick={this.clickHandler} >Quiter <i className="material-icons">exit_to_app</i></span>
 			);
 	}
 }

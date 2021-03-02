@@ -30,18 +30,18 @@ exports.posting = (req, res) => {
 	{
 		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 		post = {
-
+			...post,
 			media: imagePath,
 			
 		}
 	}
 	Object.keys(post).forEach(k => {
+		console.log(post[k]);
 		if(post[k] == null)
 		{
 			delete post[k]
 		}
 	});
-	console.log(post);
 	Posts.sendPost(post)
 	.then(() => {
 		res.status(200).json({message: "Post publié"});

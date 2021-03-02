@@ -84,6 +84,11 @@ INSERT INTO `Posts` VALUES (1,'Consequuntur et inventore libero culpa s','Nesciu
 /*!40000 ALTER TABLE `Posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
+LOCK TABLES `Posts` WRITE;
+/*!40000 ALTER TABLE `Posts` DISABLE KEYS */;
+UPDATE Posts SET likes='[]', dislikes='[]';
+/*!40000 ALTER TABLE `Posts` ENABLE KEYS */;
+UNLOCK TABLES;
 --
 -- Table structure for table `Profils`
 --
