@@ -20,6 +20,14 @@ form
 	width: 95%;
 }
 
+textarea
+{
+	height: 200px!important;
+}
+.modal
+{
+	overflow-x: hidden;
+}
 section, .view__aside--right
 {
 	overflow-y: scroll;
@@ -34,10 +42,37 @@ section, .view__aside--right
 {
 	padding: 15px;
 }
+.dropdown-content li
+{
+	padding: 0;
+	width: 100%;
+}
+
+.dropdown-content li a
+{
+
+	font-size: 12px !important;
+	text-align: center;
+	padding: 5px;
+}
+
+.active .dropdown-content li i
+{
+	margin-right: 5px !important;
+	color: #414141;
+}
+
+a.dropdown-trigger i
+{
+	color: #414141!important;
+
+}
 
 .comment
 {
 	margin-bottom: 30px;
+	width: 100%;
+	margin: 10px 1
 }
 .comment p
 {

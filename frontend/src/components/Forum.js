@@ -57,12 +57,12 @@ class Forum extends Component {
 				let dislikes = post.dislikes.split('[').join("");
 				dislikes = dislikes.split(']').join("");
 				dislikes = dislikes.split(',');
-
-				// const dislikes = JSON.parse(post.dislikes);
+				const media = JSON.parse(post.media)
 				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 				const date = new Date(post.date);
 				return( <Post
 					onChangePost={this.onChange}
+					onUpdate={this.getAllPosts}
 					likes={likes}
 					dislikes={dislikes}
 					onlineColor={(post.userActive) ? "green":"red"} 
@@ -71,7 +71,7 @@ class Forum extends Component {
 					key={post.id} 
 					idkey={post.id} 
 					title={post.title} 
-					picture={post.media} 
+					media={media}
 					text={post.description}
 					userPicture={post.picture}
 					commentCount={post.comment_count}
@@ -168,7 +168,7 @@ class Forum extends Component {
 						
 					</section>
 					<aside className="view__aside--right col s12 l3 row">
-						<EditPost onPosted={this.getAllPosts} />
+						<EditPost modal="modal1" onPosted={this.getAllPosts}/>
 						<PostBar picture={this.state.currentUser.picture} firstName={this.state.currentUser.firstName} lastName={this.state.currentUser.lastName} />
 					</aside>
 				</main>

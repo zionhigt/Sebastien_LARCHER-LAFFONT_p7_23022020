@@ -50,7 +50,7 @@ exports.updateUser = customer =>{
 
 
 exports.deleteUser = customer =>{
-	let query = 'DELETE FROM Users WHERE ??=?';
+	let query = 'DELETE FROM Users WHERE email =?';
 	query = mysql.format(query, customer);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {

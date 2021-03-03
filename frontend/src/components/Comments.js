@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import * as API from '../api/api.js';
+import EditComment from './EditComment.js';
+
+
 class Comment extends Component {
 
 	constructor(props)
@@ -7,8 +10,16 @@ class Comment extends Component {
 		super(props);
 		this.state = {comments: null};
 		this.likeCommentHandler = this.likeCommentHandler.bind(this);
+		this.deleteCommentHandler = this.deleteCommentHandler.bind(this);
+		this.updateHandler = this.updateHandler.bind(this);
 	}
 	
+	componentDidMount()
+	{
+		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
+		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
+	}
+
 	likeCommentHandler(like)
 	{
 		return (e => {
@@ -16,10 +27,30 @@ class Comment extends Component {
 			API.likeComment(like, this.props.commentId)
 			.then(() => {
 				// window.location.reload(false);
-				this.props.onLike(true);
+				this.props.onChanged(true);
 			})
 			.catch(error => {console.log(error)});
 			});
+	}
+
+	deleteCommentHandler(like)
+	{
+		API.deleteComment(this.props.commentId)
+		.then(() => {
+			// window.location.reload(false);
+			this.props.onChanged(true);
+		})
+		.catch(error => {console.log(error)});
+	}
+
+	updateHandler(e)
+	{
+		e.preventDefault();
+		
+		const modal = document.getElementById(`modalComment${this.props.commentId}`);
+		console.log(`modalComment${this.props.commentId}`);
+    	const modalInstances = M.Modal.init(modal);
+		modalInstances.open();
 	}
 
 	render(){
@@ -27,7 +58,21 @@ class Comment extends Component {
 		return(
 			<div className="comment">
 				<div className="divider"></div>
-				<span className="align-left comment__name">{this.props.by}</span>
+				<div className="row">
+					<span className="align-left comment__name col s11">{this.props.by}</span>
+					{(this.props.currentUserId == this.props.posted_by_id)?
+					<a className='dropdown-trigger col s1' href='#' data-target={`drop_comment_action_${this.props.commentId}`}><i className="material-icons">more_vert</i></a>
+					 :null}
+				</div>
+				{(this.props.currentUserId == this.props.posted_by_id)?
+					<ul id={`drop_comment_action_${this.props.commentId}`} className='dropdown-content'>
+						<li><a onClick={this.updateHandler}><i className="material-icons">create</i>Modifier</a></li>
+						<li className="divider"></li>
+						<li><a onClick={this.deleteCommentHandler}><i className="material-icons">delete</i>Supprimer</a></li>
+					</ul>
+				 :
+				 null}
+				 <EditComment onUpdate={this.props.onChanged} id={this.props.commentId} text={this.props.text} />
 				<p className="comment__text">{this.props.text}</p>
 				<div className="row">
 		       		<div className="like-palet col s6 valign-wrapper">
@@ -57,7 +102,7 @@ class Comments extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {editComment: "", comments: [], commentsData: []};
+		this.state = {editComment: "", comments: [], commentsData: [], commentLength: 0};
 		this.builtinComment = this.builtinComment.bind(this);
 		this.getComments = this.getComments.bind(this);
 		this.editCommentHandler = this.editCommentHandler.bind(this);
@@ -67,6 +112,7 @@ class Comments extends Component {
 	componentDidMount(){
 		const elemCollapsible = document.querySelectorAll('.collapsible.collapsible-accordion');
 		const collapsible = M.Collapsible.init(elemCollapsible);
+		this.setState({ commentLength: this.props.numberOf})
 		
 	}
 
@@ -114,6 +160,7 @@ class Comments extends Component {
 		const comments = this.state.commentsData.map(comment => {
 
 			// const likes = JSON.parse(post.likes);
+			console.log(comment);
 			let likes = comment.likes.split('[').join("");
 			likes = likes.split(']').join("");
 			likes = likes.split(',');
@@ -129,10 +176,20 @@ class Comments extends Component {
 
 
 			return(
-			     	<Comment commentId={comment.id} onLike={this.getComments} currentUserId={this.props.currentUserId} likes={likes} dislikes={dislikes} key={comment.id} by={comment.firstName+" "+comment.lastName} date={date} text={comment.text} />
+			     	<Comment
+			     		posted_by_id={comment.profil_id}
+			     	 	commentId={comment.id}
+			     	 	onChanged={this.getComments}
+			     	 	currentUserId={this.props.currentUserId}
+			     	 	likes={likes}
+			     	 	dislikes={dislikes}
+			     	 	key={comment.id}
+			     	 	by={`${comment.firstName} ${comment.lastName}`}
+			     	 	date={date}
+			     	 	text={comment.text} />
 				);
 		});
-		this.setState({comments: comments});
+		this.setState({comments: comments, commentLength: comments.length});
 	};
 
 	render(){
@@ -142,10 +199,7 @@ class Comments extends Component {
 				{(this.props.numberOf>0 || this.state.comments.length>0) ?
 				 <ul className="collapsible collapsible-accordion z-depth-0">
 					<li>
-				      <div className="collapsible-header" onClick={this.getComments} ><i className="material-icons">comment</i>({
-				      (this.state.comments.length > this.props.numberOf) ?
-				       this.state.comments.length :
-				       this.props.numberOf}) Commentaire{(this.state.comments.length>1) ? 's':''}</div>
+				      <div className="collapsible-header" onClick={this.getComments} ><i className="material-icons">comment</i>({this.state.commentLength}) Commentaire{(this.state.commentLength>1) ? 's':''}</div>
 				      <ul className="collapsible-body">
 				      	<li>
 				      		{this.state.comments}

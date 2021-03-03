@@ -71,11 +71,20 @@ exports.signup = (req, res) => {
 	
 };
 
+exports.delAcount = (req, res) => {
+	User.deleteUser(req.session.user.email)
+	.then(() => {
+		
+		res.status(200).json({message: "Compte supprimer"});		
+	})
+	.catch(error => {console.log(error); res.status(500).json({ error })});
+}
 exports.signin = (req, res) => {
 	User.searchUser([req.body.email])
 	.then(user => {
 		bcrypt.compare(req.body.password, user[0].password)
 		.then(valide => {
+			console.log(valide);
 			if(!valide)
 			{
 				res.status(401).json({error: "Mot de passe incorecte"})
@@ -91,7 +100,6 @@ exports.signin = (req, res) => {
 		})
 		.catch(error => res.status(500).json({ error }));
 	})
-		
 	.catch(error => {console.log(error); res.status(403).json({error: "Aucuns utilisateur n'a été trouvé !"})})
 }
 
@@ -114,7 +122,7 @@ exports.getUserProfil = (req, res) => {
 		User.getProfil(req.session.user.id)
 		.then(profil => {
 			req.session.profil = profil[0];
-			rq.session.profil.isActive = 1;
+			req.session.profil.isActive = 1;
 			res.status(200).json(profil);
 		})
 		.catch(error => {console.log(error); res.status(500).json({ error })});

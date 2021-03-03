@@ -8,6 +8,8 @@ const postsCtrl = require('../controllers/posts');
 
 router.get('/', auth, postsCtrl.getAll);
 router.get('/:id', auth, postsCtrl.getOne);
+router.put('/:id', auth, multer, postsCtrl.updateOne);
+router.delete('/:id', auth, postsCtrl.deleteOne);
 router.post('/', auth, multer, postsCtrl.posting);
 router.post('/like/:id', auth, postsCtrl.likeHandler);
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as API from '../api/api.js'; 
 
 import Comments from './Comments.js';
+import EditPost from './EditPost.js';
 
 
 
@@ -12,11 +13,32 @@ class Post extends Component {
 		super(props);
 		this.state = {postId: ""};
 		this.likePostHandler = this.likePostHandler.bind(this);
+		this.updateHandler = this.updateHandler.bind(this);
+		this.deleteHandler = this.deleteHandler.bind(this);
+	}
+
+	deleteHandler(e)
+	{
+		e.preventDefault();
+		API.deleteOnePost(this.props.idkey)
+		.then(message => {this.props.onUpdate()})
+		.catch(error => {});
+	}
+
+	updateHandler(e)
+	{
+		e.preventDefault();
+		
+		const modal = document.getElementById(`modalUpdatePost${this.props.idkey}`);
+    	const modalInstances = M.Modal.init(modal);
+		modalInstances.open();
 	}
 
 	componentDidMount()
 	{
 		this.setState({postId: this.props.idkey})
+		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
+		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
 	}
 
 	likePostHandler(like)
@@ -41,16 +63,38 @@ class Post extends Component {
 		      <div className="card">
 		      	<div className="card-header valign-wrapper row">
 		    		<img className="circle responsive-img col s2" src={this.props.userPicture} />
-		      		<p className="col s10 valign-wrapper post__name">
+		      		<p className="col s8 valign-wrapper post__name">
 		      			{(this.props.currentUserId == this.props.postedById) ? null : <i className={"material-icons " + this.props.onlineColor + "-text"}>brightness_1</i>}
 		      			
 		      			{this.props.postedBy}
 		      		</p>
-		      	</div>
+		      		{(this.props.currentUserId == this.props.postedById) ? 
+		      			<><a className='dropdown-trigger' href='#' data-target={`drop_post_action_${this.props.idkey}`}><i className="material-icons">more_vert</i></a>
+		      			<ul id={`drop_post_action_${this.props.idkey}`} className='dropdown-content'>
+							<li><a onClick={this.updateHandler} ><i className="material-icons">create</i>Modifier</a></li>
+							<li className="divider"></li>
+							<li><a onClick={this.deleteHandler} ><i className="material-icons">delete</i>Supprimer</a></li>
+						</ul></>:
+						 null }					
+					<EditPost text={this.props.text} title={this.props.title} postPicture={this.props.media.url} modal={`modalUpdatePost${this.props.idkey}`} onPosted={this.props.onChangePost} />
+
+			  	</div>
 		      	<span className="card-title col s12">{this.props.title}</span>
-		        {(this.props.picture != "") ? <div className="card-image">
-		        		          <img src={this.props.picture} className="responsive-img" />
-		        		        </div> : null}
+		        {(typeof(this.props.media) == "object") ? 
+		        				<div className="card-image">
+		        					{(this.props.media.type == "video") ?
+		        					<video width="100%" controls src={this.props.media.url}></video> : 
+		        					null}
+
+		        					{(this.props.media.type == "audio") ?
+		        					<audio width="100%" controls src={this.props.media.url}></audio> : 
+		        					null}
+
+		        					{(this.props.media.type == "image") ?
+		        					<img src={this.props.media.url} className="responsive-img" /> : 
+		        					null}
+		        		        </div> :
+		        		         null}
 		        <div className="card-content">
 		          <p>{this.props.text}</p>
 		        </div>

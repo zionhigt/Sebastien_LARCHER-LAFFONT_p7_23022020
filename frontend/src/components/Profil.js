@@ -20,6 +20,7 @@ class Profil extends Component {
 		this.lastNameHandler = this.lastNameHandler.bind(this);
 		this.pictureHandler = this.pictureHandler.bind(this);
 		this.submitHandler = this.submitHandler.bind(this);
+		this.deleteAcountHandler = this.deleteAcountHandler.bind(this);
 	}
 	componentDidMount()
 	{
@@ -56,6 +57,17 @@ class Profil extends Component {
 		this.setState({picture: imageURL})
 		User.picture = e.target.value;
 	};
+
+	deleteAcountHandler(){
+		API.killMe()
+		.then(() => {
+			API.signout()
+			.then(message => {console.log(message)})
+			.catch(error => {console.log(error)});
+			window.location = "/?#/signin"; 
+		})
+		.catch(error => { console.log(error)})
+	}
 
 	submitHandler(e){
 		
@@ -114,7 +126,9 @@ class Profil extends Component {
 					    
 					    
 						
-						{(this.state.modify) ? <input className="btn" type="submit" value="Modifier mes infos" onClick={this.submitHandler} /> : null}
+						{(this.state.modify) ?
+						 <><input className="btn" type="submit" value="Modifier mes infos" onClick={this.submitHandler} />
+						 <input type="submit" className="btn red" value="Supprimer mon compte" onClick={this.deleteAcountHandler} /></> : null}
 					</form>
 				</main>
 				

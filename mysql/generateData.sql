@@ -48,8 +48,11 @@ LOCK TABLES `Comments` WRITE;
 /*!40000 ALTER TABLE `Comments` DISABLE KEYS */;
 INSERT INTO `Comments` VALUES (1,'Sint ullam laboriosam ullam impedit atque qui. Illo iure nulla possimus odit dolor itaque. Dolor et aut dignissimos consequuntur dicta. Minus aliquid quam doloremque est delectus ea in.','a','c',1,1,'1970-06-24 05:21:12'),(2,'Et quam quod numquam maiores iusto sint vel suscipit. Maxime ut deleniti quis quod quisquam incidunt hic consequatur. Magni neque omnis ipsa vitae aliquid hic nulla. Sequi aperiam aspernatur ab consequatur quasi.','b','c',2,2,'1987-09-28 10:00:21'),(3,'Adipisci est placeat nesciunt error. Voluptatum soluta voluptas nulla consectetur nostrum numquam nobis. Incidunt ea pariatur quibusdam earum.','a','b',3,3,'2015-03-22 05:40:44'),(4,'Autem voluptatem officia id voluptate fugit nulla earum. Deserunt esse consequatur quia nemo saepe. Quos tenetur consequatur ea itaque. Et voluptatem error nulla sit et provident.','b','a',4,4,'1973-03-31 07:26:55'),(5,'Nulla non explicabo voluptatem non voluptate minus sed. Omnis optio ut ut eum autem repellat libero. Id illum a vitae numquam. Qui sed vero minus dolorem animi et et impedit.','c','c',5,5,'1978-12-13 22:08:22'),(6,'Magni distinctio non voluptas laboriosam unde accusantium. A quia fuga eos consequatur illum libero. Soluta veritatis repellendus quasi illo error aliquam. Eum quia reprehenderit ex itaque ut accusantium.','c','c',6,6,'1972-02-16 01:31:23'),(7,'Cumque placeat qui vero molestias. Dolorem sed saepe pariatur vel. Ea laboriosam inventore eum in.','b','c',7,7,'2003-05-05 00:23:41'),(8,'Est eum eos tenetur quae porro quae voluptates. Eum voluptatem porro non qui consequatur.','c','a',8,8,'2011-12-23 14:23:52'),(9,'Rem aut ut eum quaerat repellat eligendi. Deleniti voluptas ex quasi recusandae mollitia aut iusto quae. Incidunt debitis quibusdam numquam dolores quia natus ut. Consectetur est optio sequi facere.','b','a',9,9,'1974-01-12 17:44:19'),(10,'Ipsum et corrupti eaque sit ab numquam et. Aut ea et quia assumenda repellat quia. Quam sit in qui consequuntur natus voluptatibus sapiente. Reprehenderit perferendis ducimus dolore id eaque debitis. Rerum est ratione quia eligendi eum.','b','a',10,10,'1991-12-12 11:31:50'),(11,'Ea repellat quas quia magnam delectus quidem in. Id ea officia quo. Necessitatibus aspernatur id harum et maiores quas ut.','a','a',11,11,'1983-06-29 02:35:27'),(12,'Quia voluptatem est ut et ea. A fugit et ut modi asperiores ratione maxime soluta. Illum similique accusantium dolor modi. Aperiam culpa omnis doloribus ut ut.','c','c',12,12,'1983-06-17 04:25:45'),(13,'Vitae optio repudiandae quas praesentium pariatur. Fugiat velit recusandae modi rem et quas. Laboriosam aut non dolorem consequatur impedit et ipsum commodi.','a','a',13,13,'1980-03-10 01:47:40'),(14,'Molestiae quia quia corrupti. Quis temporibus occaecati rerum sint. Officiis qui sed odio quisquam eveniet. Autem odit est repellendus quasi molestias perferendis.','a','b',14,14,'1982-01-11 10:50:16'),(15,'Fuga ullam quia nemo. Eum delectus in dolor inventore. Dolor quia ipsum est autem quae modi sit.','c','a',15,15,'2002-02-19 17:04:10'),(16,'Saepe ut occaecati vitae necessitatibus asperiores omnis soluta voluptas. Esse veritatis rem cum deserunt unde. Tempora perspiciatis est ea est possimus hic. Tempore et enim sit autem sed enim illo. Maiores provident dolorem architecto esse pariatur totam','a','c',16,16,'2018-08-30 17:08:15'),(17,'Libero libero voluptas error. Ipsam fugit quia praesentium. Sunt et dolor earum vel beatae placeat. Tempora rerum ea vero dolor dignissimos consectetur consequatur.','b','a',17,17,'1982-08-15 17:42:56'),(18,'Optio sunt incidunt mollitia in labore voluptatibus. Rerum neque rerum repudiandae autem deleniti animi. Quas excepturi perferendis quibusdam non. Beatae quidem vitae earum ratione id officiis.','b','c',18,18,'1989-06-16 06:41:32'),(19,'Fugit ratione quasi illum neque quibusdam illum. Facere quo officiis assumenda dolorum praesentium. Quaerat eius earum sunt qui et. Rerum non consequatur atque quia recusandae officiis.','c','b',19,19,'1987-08-03 22:45:32'),(20,'Dolores officia ratione quis dolores. Fuga vitae blanditiis labore eveniet vel. Ratione atque nostrum sunt aperiam quo occaecati consequatur.','c','c',20,20,'1995-05-15 07:44:48'),(21,'Aut cupiditate aut possimus. Amet molestiae nostrum alias. Assumenda et laudantium sit accusamus architecto.','c','c',21,1,'1988-07-14 12:03:21'),(22,'Neque cum asperiores deleniti eos et et. Deleniti odio asperiores voluptatum necessitatibus. Blanditiis iusto minima sint consequuntur iusto minus repellendus.','b','b',22,2,'1995-07-17 12:43:47'),(23,'In voluptatem consequuntur dolores sit possimus sed. Vel perspiciatis repellendus dicta ad dolorem ipsam quia. Repellat pariatur possimus ipsa est et tempore est.','a','a',23,3,'1972-10-25 23:03:04'),(24,'Nemo quos eos reiciendis at aut. Odio alias similique doloremque. Sequi magnam quia voluptatem iure eos suscipit totam.','b','b',24,4,'1974-01-11 10:58:54'),(25,'Qui velit dolores similique repudiandae ratione ut distinctio est. Dolore sit dolorem ut reprehenderit architecto delectus consequatur. Qui sed et perspiciatis doloribus laboriosam aut.','b','b',25,5,'1997-03-05 20:16:37'),(26,'Necessitatibus sit et explicabo dicta. Nesciunt sed dolorum corrupti et nostrum voluptate. Est illum quia dolor. Aut rerum cupiditate officia consequuntur id consequatur. Dicta et qui beatae illum fuga.','a','b',26,6,'1997-07-17 20:22:15'),(27,'Ut officia consectetur iste ad quidem minima. Error iure explicabo dignissimos praesentium corrupti sequi maxime. At veniam ut tempore nemo omnis voluptas iusto et.','c','c',27,7,'2005-01-03 22:46:14'),(28,'Cupiditate commodi est voluptatem tenetur. Aut culpa nulla voluptatem praesentium. Voluptatibus amet quia sed ut deleniti. Pariatur perferendis amet blanditiis nam recusandae natus. Amet aut voluptas nam tempore non porro maxime.','c','b',28,8,'1997-04-23 08:13:40'),(29,'Sed et perspiciatis est consequuntur in sed quis. Voluptates voluptatem architecto molestiae exercitationem mollitia dolore eum. Quisquam in deleniti repellendus et eius non.','b','b',29,9,'1985-10-31 14:17:11'),(30,'Rem blanditiis et accusantium adipisci. Expedita rerum cum aut voluptas eaque perspiciatis quia. Nam sunt sunt officiis. Cum sunt corporis voluptatem laborum.','c','b',30,10,'1971-08-06 14:28:26');
 /*!40000 ALTER TABLE `Comments` ENABLE KEYS */;
+/*!40000 ALTER TABLE `Comments` DISABLE KEYS */;
+UPDATE Comments SET likes='[]', dislikes='[]';
+/*!40000 ALTER TABLE `Comments` ENABLE KEYS */;
 UNLOCK TABLES;
-
+--
 --
 -- Table structure for table `Posts`
 --
@@ -61,7 +64,7 @@ CREATE TABLE `Posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(40) DEFAULT NULL,
   `description` varchar(255) NOT NULL,
-  `media` varchar(40) DEFAULT NULL,
+  `media` varchar(128) DEFAULT NULL,
   `likes` varchar(255) DEFAULT '[]',
   `dislikes` varchar(255) DEFAULT '[]',
   `profil_id` int(10) unsigned DEFAULT NULL,
@@ -89,6 +92,7 @@ LOCK TABLES `Posts` WRITE;
 UPDATE Posts SET likes='[]', dislikes='[]';
 /*!40000 ALTER TABLE `Posts` ENABLE KEYS */;
 UNLOCK TABLES;
+UPDATE Posts SET media='{"url": "http://lorempixel.com/640/480/", "type": "image"}';
 --
 -- Table structure for table `Profils`
 --
@@ -152,7 +156,7 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` varchar(60) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;

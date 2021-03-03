@@ -16,14 +16,34 @@ exports.getPosts = () =>{
 };
 
 exports.getOnePost = (id) =>{
-	let query = 'SELECT Profils.is_active AS userActive, Profils.lastName, Profils.firstName, Posts.id AS id, Posts.title, Posts.description, Posts.media, Profils.picture, UNIX_TIMESTAMP(Posts.posted_date) AS date, (SELECT COUNT(*) FROM Comments WHERE Post_id = Posts.id) AS comment_count, likes, dislikes FROM Posts JOIN Profils ON Posts.profil_id = Profils.id WHERE Posts.id = ?';
+	let query = 'SELECT Profils.is_active AS userActive, Profils.lastName, Profils.firstName, Posts.id AS id, Posts.profil_id AS posted_by_id, Posts.title, Posts.description, Posts.media, Profils.picture, UNIX_TIMESTAMP(Posts.posted_date) AS date, (SELECT COUNT(*) FROM Comments WHERE Post_id = Posts.id) AS comment_count, likes, dislikes FROM Posts JOIN Profils ON Posts.profil_id = Profils.id WHERE Posts.id = ?';
 	query = mysql.format(query, [id]);
+	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
-			console.log(error);
+			console.log(res);
 			resolv(JSON.parse(JSON.stringify(res)));
 		});
+	});
+};
+
+exports.updateOnePost = (post, id) =>{
+	const payload = [...Object.values(post), id]
+  // Preparing mysql query
+  	let query = mysql.format(`UPDATE Posts SET ${Object.keys(post).join(' = ?, ')}= ? WHERE id = ?`, payload);
+	return new Promise((resolv, reject) => {
+		if(JSON.stringify(post).length > 2)
+		{
+			DB.dbConnect.query(query, (error, res, field) => {
+				if (error) reject(error);
+				resolv(res);
+			});
+		}
+		else
+		{
+			reject({message: "Rien n'a changé !"})
+		}
 	});
 };
 
@@ -37,6 +57,19 @@ exports.sendPost = (body) =>{
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
 
+			resolv(true);
+		});
+	});
+};
+
+exports.deleteOnePost = (id) =>{
+	let query = 'DELETE FROM Posts WHERE Posts.id = ?';
+	query = mysql.format(query, [id]);
+	console.log(query);
+	return new Promise((resolv, reject) => {
+		DB.dbConnect.query(query, (error, res, field) => {
+			if (error) reject(error);
+			console.log(res);
 			resolv(true);
 		});
 	});

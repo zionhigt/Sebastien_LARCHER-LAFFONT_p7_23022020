@@ -1,4 +1,5 @@
 const Posts = require('../models/Posts');
+const fs = require('fs');
 
 
 exports.getAll = (req, res)=>{
@@ -12,14 +13,12 @@ exports.getAll = (req, res)=>{
 exports.getOne = (req, res)=>{
 	Posts.getOnePost(parseInt(req.params.id))
 	.then(post => {
-		console.log(post);
 		res.status(200).json({ post });
 	})
 	.catch(error => {res.status(403).json({ error })});
 };
 
 exports.posting = (req, res) => {
-	
 	let body = JSON.parse(req.body.body)
 	let post = {
 		title: (body.title) ? body.title : null,
@@ -31,7 +30,7 @@ exports.posting = (req, res) => {
 		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 		post = {
 			...post,
-			media: imagePath,
+			media: JSON.stringify({url: imagePath, type: req.file.mimetype.split('/')[0]}),
 			
 		}
 	}
@@ -42,6 +41,7 @@ exports.posting = (req, res) => {
 			delete post[k]
 		}
 	});
+	console.log(post)
 	Posts.sendPost(post)
 	.then(() => {
 		res.status(200).json({message: "Post publié"});
@@ -113,4 +113,87 @@ exports.likeHandler = (req, res) => {
 			res.status(302).json({error: "impossible d'effectuer cette action"})
 
 	}
+};
+
+exports.updateOne = (req, res) => {
+
+	let body = JSON.parse(req.body.body)
+	let isMedia = false;
+	let post = {
+		title: (body.title) ? body.title : null,
+		description: (body.text) ? body.text : null,
+	}
+	// console.log(post);
+	if(req.file != undefined)
+	{
+		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+		isMedia = true;
+		post = {
+			...post,
+			media: JSON.stringify({url: imagePath, type: req.file.mimetype.split('/')[0]}),
+			
+		}
+		
+	}
+	Posts.getOnePost(parseInt(req.params.id))
+	.then(p => {
+		const old_post = p[0];
+		if(isMedia)
+		{
+			const URL = JSON.parse(old_post.media).url;
+			const filename = URL.split('/images/')[1];
+			fs.unlink(`images/${filename}`, ()=>{});
+		}
+		if(old_post.posted_by_id == req.session.profil.id)
+		{
+			console.log(old_post.profil_id, req.session.profil.id)
+			// console.log(post)
+			Posts.updateOnePost(post , parseInt(req.params.id))
+			.then(() => {
+				
+				res.status(200).json({message: "Post mis a jour !"});		
+			})
+			.catch(error => {console.log(error); res.status(500).json({ error })});
+		}
+		else
+		{
+			res.status(403).json({error: "Vous n'avez pas les droits requis !" })
+		}
+	})
+	.catch(error => {console.log(error); res.status(500).json({ error })});
+
+	
+
+};
+
+exports.deleteOne = (req, res) => {
+
+	Posts.getOnePost(parseInt(req.params.id))
+	.then(p => {
+		const old_post = p[0];
+		console.log(old_post.media);
+		const URL = JSON.parse(old_post.media).url;
+		const filename = URL.split('/images/')[1];
+		fs.unlink(`images/${filename}`, ()=>{
+			if(old_post.posted_by_id == req.session.profil.id)
+			{
+				
+				Posts.deleteOnePost(parseInt(req.params.id))
+				.then(() => {
+					
+					res.status(200).json({message: "Post Supprimé !"});		
+				})
+				.catch(error => {console.log(error); res.status(500).json({ error })});
+			}
+			else
+			{
+				res.status(403).json({error: "Vous n'avez pas les droits requis !" })
+			}
+		});
+		
+	})
+	.catch(error => {console.log(error); res.status(500).json({ error })});
+
+	
+
 };

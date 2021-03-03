@@ -48,6 +48,15 @@ export async function getOnePost(id){
 
 };
 
+
+export async function deleteOnePost(id){
+
+	const request = await fetch(`http://localhost:3001/api/posts/${id}`, {method: "DELETE", credentials: 'include'});
+	return request.json();
+
+};
+
+
 export async function other(){
 
 	const request = await fetch('http://localhost:3001/api/others', {credentials: 'include'});
@@ -60,6 +69,15 @@ export async function other(){
 export async function getCommentByPostId(id){
 
 	const request = await fetch(`http://localhost:3001/api/comments/${id}`, {credentials: 'include'});
+
+	return request.json();
+	
+
+};
+
+export async function killMe(){
+
+	const request = await fetch('http://localhost:3001/api/auth/killMe', {method: "DELETE", credentials: 'include'});
 
 	return request.json();
 	
@@ -89,6 +107,24 @@ export async function sendComment(body){
 		{
 			method: "POST",
 			body: JSON.stringify(body),
+			credentials: 'include',
+			headers: {                           
+  				"Content-Type": "application/json"    
+ 			} 		
+ 		}
+	);
+
+	return request.json();
+	
+
+};
+
+export async function updateOneComment(body, id){
+
+	const request = await fetch(`http://localhost:3001/api/comments/${id}`, 
+		{
+			method: "PUT",
+			body: JSON.stringify({text: body}),
 			credentials: 'include',
 			headers: {                           
   				"Content-Type": "application/json"    
@@ -137,6 +173,25 @@ export async function postOne(body){
 
 };
 
+export async function updateOnePost(body, id){
+
+	console.log(body)
+	const request = await fetch(`http://localhost:3001/api/posts/${id}`, 
+		{
+			method: "PUT",
+			body: body,
+			credentials: 'include',
+			headers: {                           
+  				"x-Content-Type": "multipart/form-data"    
+ 			} 		
+ 		}
+	);
+
+	return request.json();
+	
+
+};
+
 export async function likePost(like, id){
 
 	const request = await fetch(`http://localhost:3001/api/posts/like/${id}`, 
@@ -168,5 +223,12 @@ export async function likeComment(like, id){
 	);
 	return request.json();
 	
+
+};
+
+export async function deleteComment(id){
+
+	const request = await fetch(`http://localhost:3001/api/comments/${id}`, {method: "DELETE", credentials: 'include'});
+	return request.json();
 
 };
