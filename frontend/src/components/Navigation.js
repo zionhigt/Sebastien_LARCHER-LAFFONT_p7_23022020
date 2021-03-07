@@ -8,41 +8,42 @@ class Nav extends Component {
 
 		return (
 
-			<HashRouter>
-			<div className="white card-panel nav">
-				<div className="icon__group">
-					<NavLink to="/at">
-						<i className="material-icons">group</i>
+			<>
+			<div className="white card-panel nav row">
+				<div className="icon__group col s4">
+					<NavLink to="/extras/at">
+						<i className="material-icons" onClick={this.props.closeAction} >group</i>
 					</NavLink>
-					<NavLink to="/coffee">  
-						<i className="material-icons">free_breakfast</i>
+					<NavLink to="/extras/coffee">  
+						<i className="material-icons" onClick={this.props.closeAction} >free_breakfast</i>
 					</NavLink>
-					<NavLink to="/schedule">
-						<i className="material-icons">schedule</i>
+					<NavLink to="/extras/schedule">
+						<i className="material-icons" onClick={this.props.closeAction} >schedule</i>
+					</NavLink>
+				</div>
+				<div className="icon__group col s4">
+					<NavLink to="/forum">
+						<i className="material-icons" onClick={this.props.closeAction} >public</i>
 					</NavLink>
 				</div>
 
-				<NavLink to="/forum">
-					<i className="material-icons">public</i>
-				</NavLink>
-
-				<div className="icon__group">
-					<NavLink to="/setting">
-						<i className="material-icons">settings</i>
+				<div className="icon__group col s4">
+					<NavLink to="/extras/setting">
+						<i className="material-icons" onClick={this.props.closeAction} >settings</i>
 					</NavLink>
 					
-					<NavLink to="/home">
-						<i className="material-icons">home</i>
+					<NavLink to="/extras/home">
+						<i className="material-icons" onClick={this.props.closeAction} >home</i>
 					</NavLink>
 					<NavLink to="/profil">
-						<i className="material-icons">person</i>
+						<i className="material-icons" onClick={this.props.closeAction} >person</i>
 					</NavLink>
 				</div>
 				
 				
 				
 			</div>
-			</HashRouter>
+			</>
 			);
 	};
 }

@@ -27,7 +27,6 @@ exports.updateOne = (req, res) => {
 		const old_comment = c[0];
 		if(old_comment.profil_id == req.session.profil.id)
 		{
-			console.log(req.body.text)
 			Comments.updateOneComment(req.body.text, parseInt(req.params.id))
 			.then(() => {
 				
@@ -68,7 +67,6 @@ exports.likeHandler = (req, res) => {
 				{
 					dislikes.splice(indexOfDislikes, 1);
 				}
-				console.log(indexOfLikes);
 				Comments.updateLikesDislikes(JSON.stringify(likes), JSON.stringify(dislikes), parseInt(req.params.id))
 				.then(() => {res.status(200).json({message: returnMessage})})
 				.catch(error => res.status(500).json({ error }));

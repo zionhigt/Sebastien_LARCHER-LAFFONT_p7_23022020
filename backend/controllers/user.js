@@ -2,11 +2,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 
-exports.debug = (req, res) => {
-	console.log(req.headers);
-	res.status(200).json({message: 'Session created'});
-};
-
 const color = max => {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -84,7 +79,6 @@ exports.signin = (req, res) => {
 	.then(user => {
 		bcrypt.compare(req.body.password, user[0].password)
 		.then(valide => {
-			console.log(valide);
 			if(!valide)
 			{
 				res.status(401).json({error: "Mot de passe incorecte"})
@@ -154,7 +148,6 @@ exports.setUserProfil = (req, res) => {
 			delete profil[key]
 		}
 	});
-	console.log(req.file);
 	if(req.file != undefined)
 	{
 		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;

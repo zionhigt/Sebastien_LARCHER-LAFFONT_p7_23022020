@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Header from './Header.js';
 
-import User from '../data/userData.js';
+import { connect } from 'react-redux';
+
+import { getUserProfil } from '../Store/actions/profilAction.js';
+
 import * as API from '../api/api.js';
 
 
@@ -11,7 +14,7 @@ class Profil extends Component {
 
 		super(props);
 
-		this.state = {modify: false, firstName: "", lastName: "", picture: ""};
+		this.state = {modify: false, firstName: "", lastName: "", picture: "", pictureName: ""};
 
 		this.pictureInput = React.createRef();
 
@@ -24,15 +27,22 @@ class Profil extends Component {
 	}
 	componentDidMount()
 	{
-		API.getProfil()
-		.then(profil => {
-			this.setState({firstName: profil.firstName, lastName: profil.lastName, picture: profil.picture});
-			if(profil.error)
-			{
-				window.location = "/?#/signin";
-			}
+		if(!this.props.profil.userProfil.firstName)
+		{
+			this.props.dispatch(getUserProfil());
+		}
+		const elemCircle = document.querySelectorAll('.profil__image--user img');
+		elemCircle.forEach(elem => {
+			elem.style.height = `${elem.width}px`;		    	
 		})
-		.catch(error => {console.log({ error })});
+		
+	}
+
+	componentDidUpdate(){
+		const elemCircle = document.querySelectorAll('.profil__image--user img');
+		elemCircle.forEach(elem => {
+			elem.style.height = `${elem.width}px`;		    	
+		})
 	}
 
 	modifyHandler(e){
@@ -54,8 +64,7 @@ class Profil extends Component {
 		
 		e.preventDefault();
 		const imageURL = URL.createObjectURL(this.pictureInput.current.files[0]);
-		this.setState({picture: imageURL})
-		User.picture = e.target.value;
+		this.setState({picture: imageURL, pictureName: this.pictureInput.current.files[0].name})
 	};
 
 	deleteAcountHandler(){
@@ -81,19 +90,15 @@ class Profil extends Component {
 		});
 		delete body.modify;
 		delete body.picture;
+		delete body.pictureName;
 
 		let formData = new FormData();
 		formData.append('body', JSON.stringify({...body}));
 		formData.append('image', this.pictureInput.current.files[0]);
-		console.log(this.pictureInput.current.files[0]);
 		API.setProfil(formData)
 		.then(() => {
-			API.getProfil()
-			.then(profil => {
-				this.setState({...profil, modify: false});
-
-			})
-			.catch(error => {console.log({ error })});
+			this.props.dispatch(getUserProfil());
+			this.setState({modify: false});
 		})
 		.catch(error => {console.log({ error })});
 	};
@@ -101,35 +106,44 @@ class Profil extends Component {
 	render(){
 		return (
 			<div className="main__wrapper">
-				<Header loged={true}/>
+				<Header loged={true} profil={true} />
 				<main className="profil__main row">
-					<div className="profil__image--user col s12 m4">
-						<img src={this.state.picture}/>
-						{(this.state.modify) ? <input type="file" ref={this.pictureInput} onChange={this.pictureHandler} /> : null}
+					<a href="?#/forum" className="col l2 push-l1"><i className="material-icons">arrow_back</i></a>
+					<div className="profil__image--user col s8 l2 offset-l3">
+						<img src={(this.state.picture) ? this.state.picture : this.props.profil.userProfil.picture} className="circle z-depth-3"/>
+						{(this.state.modify) ? 
+						<div>
+							<label htmlFor="imageProfilPicker" className="label-file"><i className="material-icons">camera</i>{(this.state.pictureName != "") ? this.state.pictureName : "Choisissez une image"}</label>
+							<input id="imageProfilPicker" type="file" ref={this.pictureInput} onChange={this.pictureHandler} className="input-file" />
+						</div> : null}
 					</div>
-					<form className="col s12 m8">
+					<label>
+						<i className="material-icons">mode_edit</i>
+				      <input type="checkbox" className="browser-default" checked={this.state.modify} onChange={this.modifyHandler}/>
+				      <span>Modifier ?</span><br />
+				    </label> 
+					<form className="profil__form col s10 offset-s1 l4 offset-l4 z-depth-2">
+
 						<div className="profil__input input-field">
-							{(this.state.modify) ? <input id="profilFirstName" className="validate active" type="text" value={this.state.lastName} onChange={this.lastNameHandler}/> : <p>{this.state.lastName}</p>}
-							<label htmlFor="profilFirstName" className="active">Nom</label>
+							{(this.state.modify) ? <input id="profilLastName" className="validate" type="text" value={(this.state.lastName) ? this.state.lastName : this.props.profil.userProfil.lastName} onChange={this.lastNameHandler}/> : <p>{this.props.profil.userProfil.lastName}</p>}
+							<label htmlFor="profilLastName" className="active">Nom</label>
 						</div>
+
 						<div className="profil__input input-field">
-							{(this.state.modify) ? <input id="profilLastName" className="validate" type="text" value={this.state.firstName} onChange={this.firstNameHandler}/> : <p>{this.state.firstName}</p>}
-							<label htmlFor="profilLastName" className="active">Prénom</label>
+							{(this.state.modify) ? <input id="profilFirstName" className="validate active" type="text" value={(this.state.firstName) ? this.state.firstName : this.props.profil.userProfil.firstName} onChange={this.firstNameHandler}/> : <p>{this.props.profil.userProfil.firstName}</p>}
+							<label htmlFor="profilFirstName" className="active">Prénom</label>
 						</div>
 						
-						<label>
-							<i className="material-icons">mode_edit</i>
-					      <input type="checkbox" className="browser-default" checked={this.state.modify} onChange={this.modifyHandler}/>
-					      <span>Modifier ?</span><br />
-					    </label>
-					    
-					    
-					    
 						
-						{(this.state.modify) ?
-						 <><input className="btn" type="submit" value="Modifier mes infos" onClick={this.submitHandler} />
-						 <input type="submit" className="btn red" value="Supprimer mon compte" onClick={this.deleteAcountHandler} /></> : null}
 					</form>
+					{(this.state.modify) ?
+						<div className="col s10 offset-s1 l4 offset-l4">
+							<div className="row">
+								<input className="btn col l4" type="submit" value="Modifier mes infos" onClick={this.submitHandler} />
+								<a className="supress__user red-text col s8 l4 push-l4" onClick={this.deleteAcountHandler} >Supprimer mon compte</a>
+							</div>
+						</div>
+					: null}
 				</main>
 				
 			</div>
@@ -137,4 +151,6 @@ class Profil extends Component {
 	};
 }
 
-export default Profil;
+const mapStateToProps = state => {return {...state}};
+
+export default connect(mapStateToProps)(Profil);

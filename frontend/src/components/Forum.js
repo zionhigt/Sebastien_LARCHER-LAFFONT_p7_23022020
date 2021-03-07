@@ -1,181 +1,156 @@
 import React, { Component } from 'react';
-
-import usersData from '../data/usersData.js';
-import postsData from '../data/postsData.js';
-import User from '../data/userData.js';
+import { connect } from 'react-redux';
 
 import Header from './Header.js';
 import OnlineUser from './OnlineUser.js';
 import Post from './Post.js';
+import Nav from './Navigation.js';
+import Disconnect from './Disconnect.js';
 import PostBar from './PostBar.js';
 import EditPost from './EditPost.js';
 
-import * as API from '../api/api.js'; 
-
-
-
-class TopPosts extends Component {
-
-	render(){
-		return(
-
-			<div className="col s12">
-			    <div className="card horizontal">
-			      <div className="card-image">
-			        <img src="http:\/\/placehold.it/300x300" className=" responsive-img" />
-			      </div>
-			      <div className="card-stacked">
-			        <div className="card-content">
-			          <p>I am a very simple card. I am good at containing small bits of information.</p>
-			        </div>
-			        <div className="card-action">
-			          <a href="#">This is a link</a>
-			        </div>
-			      </div>
-			    </div>
-			 </div>
-			);
-	};
-}
-
+import * as API from '../api/api.js';
+import { getUserProfil } from '../Store/actions/profilAction.js';
+import { getOthers } from '../Store/actions/otherAction.js';
+import { getAllPosts, getOnePost } from '../Store/actions/postsAction.js';
 
 
 class Forum extends Component {
 	constructor(props){
 		super(props);
-		this.state = {onlineUsers: [], posts: [], currentUser: {}, dataPosts: [] };
+		this.state = {onlineUsers: [], posts: []};
 		this.onChange = this.onChange.bind(this);
-		this.getAllPosts = this.getAllPosts.bind(this);
 	}
-	builtinPost(){
-		const listPosts = this.state.dataPosts.map(post => {
+	builtin(){
+		const listPosts = this.props.posts.posts.map(post => {
 				// const likes = JSON.parse(post.likes);
-				let likes = post.likes.split('[').join("");
-				likes = likes.split(']').join("");
-				likes = likes.split(',');
+			let likes = post.likes.split('[').join("");
+			likes = likes.split(']').join("");
+			likes = likes.split(',');
 
-				let dislikes = post.dislikes.split('[').join("");
-				dislikes = dislikes.split(']').join("");
-				dislikes = dislikes.split(',');
-				const media = JSON.parse(post.media)
-				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-				const date = new Date(post.date);
-				return( <Post
-					onChangePost={this.onChange}
-					onUpdate={this.getAllPosts}
-					likes={likes}
-					dislikes={dislikes}
-					onlineColor={(post.userActive) ? "green":"red"} 
-					postedBy={`${post.firstName} ${post.lastName}`}
-					postedById={post.posted_by_id} 
-					key={post.id} 
-					idkey={post.id} 
-					title={post.title} 
-					media={media}
-					text={post.description}
-					userPicture={post.picture}
-					commentCount={post.comment_count}
-					currentUserPicture={this.state.currentUser.picture}
-					currentUserId={this.state.currentUser.id}
-					date={date.toLocaleDateString(undefined, options)+" à "+date.getHours()+"h"+date.getMinutes()}/>);
-			});
-			this.setState({posts: listPosts});
+			let dislikes = post.dislikes.split('[').join("");
+			dislikes = dislikes.split(']').join("");
+			dislikes = dislikes.split(',');
+			let media = JSON.parse(post.media);
+			if(!media)
+			{
+				media = {url: "", type: null};
+			}
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+			const timeOptions = { hour: "numeric", minute: "numeric", style: "currencyDisplay"};
+			let date = new Date(Math.floor(post.date*1000))
+			date = `${date.toLocaleDateString(undefined, options)} à ${date.toLocaleTimeString(undefined, timeOptions)}`.replace(':', 'h');
+			return( <Post
+				onUpdate={this.onChange}
+				likes={likes}
+				dislikes={dislikes}
+				onlineColor={(post.userActive) ? "green":"red"} 
+				postedBy={`${post.firstName} ${post.lastName}`}
+				postedById={post.posted_by_id} 
+				key={post.id} 
+				idkey={post.id} 
+				title={post.title} 
+				media={media}
+				text={post.description}
+				userPicture={post.picture}
+				commentCount={post.comment_count}
+				currentUserPicture={this.props.profil.userProfil.picture}
+				currentUserId={this.props.profil.userProfil.id}
+				date={date}/>);
+		});
+		this.setState({posts: listPosts});
+		const listOnlineUsers = this.props.other.others.map(user => {
+			return( <OnlineUser 
+				key={user.id} 
+				picture={user.picture} 
+				name={`${user.firstName} ${user.lastName}`}/>);
+		});
+		this.setState({onlineUsers: listOnlineUsers});
 	};
 	componentDidMount(){
-		API.getProfil()
-		.then(profil=>{
-			if(profil.length != undefined)
-			{
-				profil = profil[0];
-			}
-			this.setState({currentUser: profil});
-			console.log(profil.length, "here")
-		})
-		.catch(error=>{console.log(error)});
-		
-		API.other()
-		.then(users =>{
-			const listOnlineUsers = users.map(user => {
-				return( <OnlineUser 
-					key={user.id} 
-					picture={user.picture} 
-					name={`${user.firstName} ${user.lastName}`}/>);
-			});
-			this.setState({onlineUsers: listOnlineUsers});
-		})
-		.catch(error => {console.log(error)});
-		
-		this.getAllPosts();
+		if(!this.props.profil.userProfil.id || !this.props.other.others || !this.props.posts.posts)
+		{
 
-		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
-		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: false, alignment: 'right'});
-		
-		
-
-	}
-
-	getAllPosts(){
-		API.posts()
-		.then(posts => {
-			if(posts.error)
-			{
-				window.location = "/?#/signin";
-			}
-			this.setState({dataPosts: posts.posts});
-			this.builtinPost();
-			const elemCircle = document.querySelectorAll('.card-header .circle, .card-footer .circle');
-
+			this.props.dispatch(getUserProfil());
+			this.props.dispatch(getOthers());
+			this.props.dispatch(getAllPosts());
+			const elemCircle = document.querySelectorAll('img.circle');
 			elemCircle.forEach(elem => {
-		    	elem.style.height = `${elem.width}px`;		    	
-		    });
-		})
-		.catch(error => {console.log(error)});
+				elem.style.height = `${elem.width}px`;		    	
+			})
+
+		}
+		else
+		{
+
+			this.builtin();
+		}
+
 	}
 
-	onChange(e){
-		let old_post = {};
-		this.state.dataPosts.forEach(p => {
-			if(p.id == parseInt(e))
-			{
-				old_post = p;
-			}
-		});
-		API.getOnePost(e)
-		.then(post => {
-			console.log(post.post[0])
-			const indexOfPost = this.state.dataPosts.indexOf(old_post);
-			let newPosts = this.state.dataPosts;
-			newPosts.splice(indexOfPost, 1, post.post[0]);
-			this.setState({dataPosts: newPosts});
-			this.builtinPost();
+	componentDidUpdate(prevProps) {
+	  if (this.props.posts !== prevProps.posts) {
+		this.builtin();
+		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
+		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: true, alignment: 'right'});
+		const elemCircle = document.querySelectorAll('img.circle');
+		elemCircle.forEach(elem => {
+			elem.style.height = `${elem.width}px`;		    	
 		})
-		.catch(error => {console.log(error)});
+	  }
 	}
+
+	onChange(id=false, scroll=true){
+		const viewBox = document.getElementById('postView');
+		if(scroll)
+		{
+			viewBox.scrollTo({top: 0})
+		}
+		
+
+		id ? this.props.dispatch(getOnePost(id)) : this.props.dispatch(getAllPosts());
+	}
+
 	render(){
 		return (
-			<div className="main__wrapper">
-				<Header loged={true}/>
+			<div>
+				<Header loged={true} onlineUsers={this.state.onlineUsers} firstName={this.props.profil.userProfil.firstName} lastName={this.props.profil.userProfil.lastName} picture={this.props.profil.userProfil.picture}  onPosted={this.onChange} />
+				<ul id="onlineList" className="collection dropdown-content col s12 z-depth-5">{this.state.onlineUsers}</ul>
 				<main className="row">
-					<aside className="view__aside--left col s12 l3">
-						<div className="row center" id="onlineContainer">
-							<a className="dropdown-trigger btn col s12" data-target="onlineList">En ligne <span>({this.state.onlineUsers.length})</span></a>
-							<ul id="onlineList" className="collection dropdown-content col s12">{this.state.onlineUsers}</ul>
-						</div>
-					</aside>
-					<section className="view__center section col s12 l6">
+					
+					<section id="postView" className="view__center section col s12 m6 l6 offset-l1">
 						
 						<div className="row">{this.state.posts}</div>
 						
 					</section>
-					<aside className="view__aside--right col s12 l3 row">
-						<EditPost modal="modal1" onPosted={this.getAllPosts}/>
-						<PostBar picture={this.state.currentUser.picture} firstName={this.state.currentUser.firstName} lastName={this.state.currentUser.lastName} />
+					<aside className="view__aside--right col l3 push-l1 row">
+						<ul className="side">
+						    <li>
+							    <div className="user-view">
+							      <div className="sidenav__profil row">
+								    <img className="circle col s8 offset-s3" src={this.props.profil.userProfil.picture} />
+								    <span className="bold col s12">{this.props.profil.userProfil.firstName} </span>
+								    <span className="bold col s12">{this.props.profil.userProfil.lastName}</span>
+							      	
+							      </div>
+								 </div>
+							</li>
+						    <li><div className="divider"></div></li>
+						   	<li><Nav /></li>
+						   	<li><EditPost modal="modalDesk" onPosted={this.onChange}/></li>
+						   	<li><PostBar id="post_edit_desk" modal="modalDesk" /></li>
+						   	<li><a className="dropdown-trigger btn col s12 online__list--button" data-target="onlineList">Membre en ligne</a></li>
+						   	<li><Disconnect/></li>
+			  			</ul>
+						
+						
 					</aside>
 				</main>
-					
 			</div>
-			);
+		);
 	};
 }
 
-export default Forum;
+const mapStateToProps = state => {return {...state}};
+
+export default connect(mapStateToProps)(Forum);

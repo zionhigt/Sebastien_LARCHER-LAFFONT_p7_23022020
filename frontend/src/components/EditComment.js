@@ -28,14 +28,13 @@ class EditPost extends Component {
 		e.preventDefault();
 		
 		API.updateOneComment(this.state.text, this.props.id)
-		.then(() => {this.props.onUpdate(true)})
+		.then(() => {this.props.onUpdate(null, true)})
 		.catch(error => {console.log({ error })});
 	}
 
 	closeHandler(e)
 	{
 		const modal = document.getElementById(`modalComment${this.props.id}`);
-		console.log(modal);
     	const modalInstances = M.Modal.init(modal);
 		modalInstances.destroy();
 	}

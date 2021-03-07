@@ -35,13 +35,11 @@ exports.posting = (req, res) => {
 		}
 	}
 	Object.keys(post).forEach(k => {
-		console.log(post[k]);
 		if(post[k] == null)
 		{
 			delete post[k]
 		}
 	});
-	console.log(post)
 	Posts.sendPost(post)
 	.then(() => {
 		res.status(200).json({message: "Post publié"});
@@ -74,7 +72,6 @@ exports.likeHandler = (req, res) => {
 				{
 					dislikes.splice(indexOfDislikes, 1);
 				}
-				console.log(indexOfLikes);
 				Posts.updateLikesDislikes(JSON.stringify(likes), JSON.stringify(dislikes), parseInt(req.params.id))
 				.then(() => {res.status(200).json({message: returnMessage})})
 				.catch(error => res.status(500).json({ error }));
@@ -123,7 +120,6 @@ exports.updateOne = (req, res) => {
 		title: (body.title) ? body.title : null,
 		description: (body.text) ? body.text : null,
 	}
-	// console.log(post);
 	if(req.file != undefined)
 	{
 		const imagePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -146,8 +142,7 @@ exports.updateOne = (req, res) => {
 		}
 		if(old_post.posted_by_id == req.session.profil.id)
 		{
-			console.log(old_post.profil_id, req.session.profil.id)
-			// console.log(post)
+			
 			Posts.updateOnePost(post , parseInt(req.params.id))
 			.then(() => {
 				
@@ -171,10 +166,18 @@ exports.deleteOne = (req, res) => {
 	Posts.getOnePost(parseInt(req.params.id))
 	.then(p => {
 		const old_post = p[0];
-		console.log(old_post.media);
-		const URL = JSON.parse(old_post.media).url;
-		const filename = URL.split('/images/')[1];
-		fs.unlink(`images/${filename}`, ()=>{
+		const media = JSON.parse(old_post.media);
+		let path;
+		if(media)
+		{
+			const filename = media.url.split('/images/')[1];
+			path = `images/${filename}`;
+		}
+		else
+		{
+			path = "";
+		}
+		fs.unlink(path, ()=>{
 			if(old_post.posted_by_id == req.session.profil.id)
 			{
 				

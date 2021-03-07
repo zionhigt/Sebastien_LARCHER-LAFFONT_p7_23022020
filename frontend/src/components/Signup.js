@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import * as API from '../api/api.js'
-import Password from './Password.js'
+import * as API from '../api/api.js';
+import Password from './Password.js';
+import Header from './Header.js';
 
-class Form extends Component {
+class Signup extends Component {
 
 	constructor(props){
 		super(props);
@@ -39,7 +40,6 @@ class Form extends Component {
 				else
 				{
 					this.setState({error: ""});
-					console.log(res.isProfil);
 					window.location = "/?#/signin"
 				}
 			})
@@ -93,7 +93,9 @@ class Form extends Component {
 	render(){
 
 		return (
-			<div className="center">
+			<>
+			<Header loged={false}/>
+			<main className="center">
 				<h3 className="signup__title">Créer un compte ?</h3>
 				<form onSubmit={this.submitHandler}>
 					<div className="row">
@@ -121,19 +123,13 @@ class Form extends Component {
 				     <p className="red-text">{(this.state.error != "") ? this.state.error : null}</p>
 					<button type="submit" className="btn waves-effect waves-light" onClick={this.submiHandler}>S'inscrire</button>
 				</form>
-			</div>
+			</main>
+			</>
 			);
 	};
 }
 
 
-class Singup extends Component {
 
-	render (){
-		return (
-			<Form />
-			);
-	};
-}
 
-export default Singup;
+export default Signup;

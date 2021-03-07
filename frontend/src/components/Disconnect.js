@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import * as API from '../api/api.js';
+import { connect } from 'react-redux';
+
+import { disconnectUser } from '../Store/actions/profilAction.js';
 
 class Disconnect extends Component {
 
@@ -10,17 +13,17 @@ class Disconnect extends Component {
 	}
 
 	clickHandler(e){
-		API.signout()
-		.then(message => {console.log(message)})
-		.catch(error => {console.log(error)});
-		window.location = "/?#/signin"; 
+		this.props.dispatch(disconnectUser());
+		this.props.closeAction(); 
 	}
 
 	render(){
 		return(
-			<span className={`exit valign-wrapper ${this.props.className}`} onClick={this.clickHandler} >Quiter <i className="material-icons">exit_to_app</i></span>
+			<p className="exit valign-wrapper center row" onClick={this.clickHandler} ><span className="col s10 push-s1">Sortir</span><i className="material-icons col s2">exit_to_app</i></p>
 			);
 	}
 }
 
-export default Disconnect;
+const mapStateToProps = state => {return {...state}};
+
+export default connect(mapStateToProps)(Disconnect);

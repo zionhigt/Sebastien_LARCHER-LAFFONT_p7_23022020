@@ -21,7 +21,6 @@ exports.getOneById = (id) =>{
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
-			console.log(res);
 			resolv(JSON.parse(JSON.stringify(res)));
 		});
 	});
@@ -54,11 +53,9 @@ exports.getLikesDislikes = (id) =>{
 exports.updateLikesDislikes = (likes, dislikes, id) =>{
 	let query = 'UPDATE Comments SET likes= ?, dislikes = ? WHERE id = ?';
 	query = mysql.format(query, [likes, dislikes, id]);
-	console.log(query)
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
-			console.log(res);
 			resolv(res);
 		});
 	});
@@ -67,11 +64,9 @@ exports.updateLikesDislikes = (likes, dislikes, id) =>{
 exports.updateOneComment = (comment, id) =>{
 	let query = 'UPDATE Comments SET comment_text = ? WHERE id = ?';
 	query = mysql.format(query, [comment, id]);
-	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
-			console.log(res);
 			resolv(true);
 		});
 	});
@@ -80,7 +75,6 @@ exports.updateOneComment = (comment, id) =>{
 exports.deleteOneComment = (id) =>{
 	let query = 'DELETE FROM Comments WHERE id = ?';
 	query = mysql.format(query, [id]);
-	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);

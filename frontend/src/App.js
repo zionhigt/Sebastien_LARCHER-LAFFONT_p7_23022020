@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import {HashRouter, Route} from 'react-router-dom'
+import {HashRouter, Route} from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import Store from './Store/configStore.js';
 
 import Home from "./components/Home.js";
 import Forum from "./components/Forum.js";
@@ -20,18 +23,18 @@ class App extends Component {
 
 		super(props);
 		this.state = {loged: false};
-		this.headerHandler = this.headerHandler.bind(this);
 	}
 
-	headerHandler(){
-		this.setState({loged: true});
-	}
+	
 	render(){
 		return (
 			<HashRouter>
-				<Route  path="/" component={Home} />
-				<Route exact path="/forum" component={Forum} />
-				<Route exact path="/profil" component={Profil} />
+				
+				<Provider store={Store}>
+					<Route  path="/" component={Home} />
+					<Route exact path="/forum" component={Forum} />
+					<Route exact path="/profil" component={Profil} />
+				</Provider>
 			</HashRouter>
 			);
 	};

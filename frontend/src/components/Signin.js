@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import * as API from '../api/api.js'
-import Password from './Password.js'
+
+import * as API from '../api/api.js';
+
+import Password from './Password.js';
+import Header from './Header.js';
 
 
-class Singin extends Component {
+class Signin extends Component {
 
 	constructor(props)
 	{
@@ -23,16 +26,13 @@ class Singin extends Component {
 			.then(res => {
 				if(res.error)
 				{
-					console.log(res.error)
-					this.setState({error: res.error})
+					throw res.error
 				}
-				else
-				{
-					this.setState({error: ""});
-					window.location = "/?#/forum"
-				}
+				window.location = "/?#/forum";
 			})
-			.catch(error => {console.log(error)});
+			.catch(error => {
+				this.setState({error: error})
+		});
 		}
 		else
 		{
@@ -52,25 +52,32 @@ class Singin extends Component {
 	};
 
 	render(){
+		
 		return (
-			<form onSubmit={this.submitHandler}>
-				<div className="row">
-					
-					<div className="input-field col s12">
-						<input id="email_signin"className="validate" type="email" value={this.state.email} onChange={this.emailHandler}/>
-						<label htmlFor="email_signin">Email</label>
-					</div>
-					<Password where="_signin" id="password" value={this.state.password} handler={this.passwordHandler} text="Mot de passe"/>
-					
+			<>
+			<Header loged={false}/>
+			<main>
+				<form onSubmit={this.submitHandler}>
 					<div className="row">
-						<p className="red-text">{(this.state.error != "") ? this.state.error : null}</p>
-						<button type="submit" className="btn waves-effect waves-light col s6">Se connecter</button>
-						<p className="col s6 right-align"><a href="/#/signup">Pas encore inscrit ?</a></p>	
+						
+						<div className="input-field col s12">
+							<input id="email_signin"className="validate" type="email" value={this.state.email} onChange={this.emailHandler}/>
+							<label htmlFor="email_signin">Email</label>
+						</div>
+						<Password where="_signin" id="password" value={this.state.password} handler={this.passwordHandler} text="Mot de passe"/>
+						
+						<div className="row">
+							<p className="red-text">{(this.state.error != "") ? this.state.error : null}</p>
+							<button type="submit" className="btn waves-effect waves-light col s6">Se connecter</button>
+							<p className="col s6 right-align"><a href="/#/signup">Pas encore inscrit ?</a></p>	
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</main>
+			</>
 			);
 	};
 }
 
-export default Singin;
+
+export default Signin;

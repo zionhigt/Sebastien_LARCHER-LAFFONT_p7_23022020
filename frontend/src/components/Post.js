@@ -32,6 +32,14 @@ class Post extends Component {
 		const modal = document.getElementById(`modalUpdatePost${this.props.idkey}`);
     	const modalInstances = M.Modal.init(modal);
 		modalInstances.open();
+		
+		
+	}
+	componentDidUpdate(){
+		const elemCircle = document.querySelectorAll('.card-header .circle, .card-footer .circle');
+		elemCircle.forEach(elem => {
+			elem.style.height = `${elem.width}px`;		    	
+		})
 	}
 
 	componentDidMount()
@@ -48,7 +56,7 @@ class Post extends Component {
 			API.likePost(like, this.props.idkey)
 			.then(() => {
 				// window.location.reload(false);
-				this.props.onChangePost(this.props.idkey)
+				this.props.onUpdate(this.props.idkey, false)
 			})
 			.catch(error => {console.log(error)});
 			});
@@ -58,28 +66,31 @@ class Post extends Component {
 
 		return (
 
-			<div className="col s12" id={`post_${this.props.idkey}`} >
+			<div className="col s12 " id={`post_${this.props.idkey}`} >
 
-		      <div className="card">
-		      	<div className="card-header valign-wrapper row">
-		    		<img className="circle responsive-img col s2" src={this.props.userPicture} />
-		      		<p className="col s8 valign-wrapper post__name">
-		      			{(this.props.currentUserId == this.props.postedById) ? null : <i className={"material-icons " + this.props.onlineColor + "-text"}>brightness_1</i>}
-		      			
+		      <div className="card z-depth-3">
+		      	<div className="card-header valign-wrapper row z-depth-1">
+		      		<div className="col s4 l2 post__user--picture">
+		    			<img className="circle responsive-img z-depth-2" src={this.props.userPicture} />
+		    			{(this.props.currentUserId == this.props.postedById) ? <i className={"material-icons grey-text" }>brightness_1</i> : <i className={"material-icons " + this.props.onlineColor + "-text"}>brightness_1</i>}
+		      		</div>
+		      		<p className="col s8 post__name">
 		      			{this.props.postedBy}
 		      		</p>
 		      		{(this.props.currentUserId == this.props.postedById) ? 
-		      			<><a className='dropdown-trigger' href='#' data-target={`drop_post_action_${this.props.idkey}`}><i className="material-icons">more_vert</i></a>
+		      			<>
+		      			<a className='dropdown-trigger' href='#' data-target={`drop_post_action_${this.props.idkey}`}><i className="material-icons">more_vert</i></a>
 		      			<ul id={`drop_post_action_${this.props.idkey}`} className='dropdown-content'>
 							<li><a onClick={this.updateHandler} ><i className="material-icons">create</i>Modifier</a></li>
 							<li className="divider"></li>
 							<li><a onClick={this.deleteHandler} ><i className="material-icons">delete</i>Supprimer</a></li>
-						</ul></>:
+						</ul>
+						<EditPost text={this.props.text} title={this.props.title} postPicture={this.props.media.url} modal={`modalUpdatePost${this.props.idkey}`} onPosted={this.props.onChangePost} />
+						</>:
 						 null }					
-					<EditPost text={this.props.text} title={this.props.title} postPicture={this.props.media.url} modal={`modalUpdatePost${this.props.idkey}`} onPosted={this.props.onChangePost} />
 
 			  	</div>
-		      	<span className="card-title col s12">{this.props.title}</span>
+		      	<span className="card-title col s10 push-s1">{this.props.title}</span>
 		        {(typeof(this.props.media) == "object") ? 
 		        				<div className="card-image">
 		        					{(this.props.media.type == "video") ?
@@ -113,12 +124,12 @@ class Post extends Component {
 		       		</div>
 
 		       		<div className="card-footer__date col s6">
-		       			<p>{this.props.date}</p>
+		       			<p className="date">{this.props.date}</p>
 		       		</div>
 
 
 		       	</div>
-		       	<Comments post_id={this.props.idkey} numberOf={this.props.commentCount} currentUserId={this.props.currentUserId} currentUserPicture={this.props.currentUserPicture} />
+		       	<Comments post_id={this.props.idkey} numberOf={this.props.commentCount} currentUserId={this.props.currentUserId} currentUserPicture={this.props.currentUserPicture} onUpdate={this.props.onUpdate}/>
 		       	
 		       </div>
 		      </div>

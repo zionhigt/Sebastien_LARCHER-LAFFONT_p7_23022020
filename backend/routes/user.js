@@ -11,7 +11,6 @@ router.get('/signout', userCtrl.signout);
 router.delete('/killMe', userCtrl.delAcount);
 router.get('/profil', auth, userCtrl.getUserProfil);
 router.put('/profil',auth,  multer, userCtrl.setUserProfil);
-// router.options('/signin', userCtrl.debug);
 
 
 module.exports = router;

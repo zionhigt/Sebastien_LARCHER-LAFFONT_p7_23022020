@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 export async function signup(body){
 
-	const request = await fetch('http://localhost:3001/api/auth/signup', 
+	return await fetch('http://localhost:3001/api/auth/signup', 
 		{
 			method: "POST",
 			body: JSON.stringify(body),
@@ -10,16 +10,15 @@ export async function signup(body){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function signin(body){
 
-	const request = await fetch('http://localhost:3001/api/auth/signin', 
+	return await fetch('http://localhost:3001/api/auth/signin', 
 		{
 			method: "POST",
 			body: JSON.stringify(body),
@@ -28,82 +27,76 @@ export async function signin(body){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(res => res.json());
 	
 
 };
 
 export async function posts(){
 
-	const request = await fetch('http://localhost:3001/api/posts', {credentials: 'include'});
-	return request.json();
+	return await fetch('http://localhost:3001/api/posts', {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 
 };
 export async function getOnePost(id){
 
-	const request = await fetch(`http://localhost:3001/api/posts/${id}`, {credentials: 'include'});
-	return request.json();
+	return await fetch(`http://localhost:3001/api/posts/${id}`, {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 
 };
 
 
 export async function deleteOnePost(id){
 
-	const request = await fetch(`http://localhost:3001/api/posts/${id}`, {method: "DELETE", credentials: 'include'});
-	return request.json();
+	return await fetch(`http://localhost:3001/api/posts/${id}`, {method: "DELETE", credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 
 };
 
 
-export async function other(){
+export async function getOthers(){
 
-	const request = await fetch('http://localhost:3001/api/others', {credentials: 'include'});
-
-	return request.json();
+	return await fetch('http://localhost:3001/api/others', {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function getCommentByPostId(id){
 
-	const request = await fetch(`http://localhost:3001/api/comments/${id}`, {credentials: 'include'});
-
-	return request.json();
+	return await fetch(`http://localhost:3001/api/comments/${id}`, {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function killMe(){
 
-	const request = await fetch('http://localhost:3001/api/auth/killMe', {method: "DELETE", credentials: 'include'});
-
-	return request.json();
+	return await fetch('http://localhost:3001/api/auth/killMe', {method: "DELETE", credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function signout(){
 
-	const request = await fetch('http://localhost:3001/api/auth/signout', {credentials: 'include'});
-
-	return request.json();
+	return await fetch('http://localhost:3001/api/auth/signout', {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function getProfil(){
-	const request = await fetch('http://localhost:3001/api/auth/profil', {credentials: 'include'});
-
-	return request.json();
+	return await fetch('http://localhost:3001/api/auth/profil', {credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function sendComment(body){
 
-	const request = await fetch('http://localhost:3001/api/comments', 
+	return await fetch('http://localhost:3001/api/comments', 
 		{
 			method: "POST",
 			body: JSON.stringify(body),
@@ -112,16 +105,15 @@ export async function sendComment(body){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function updateOneComment(body, id){
 
-	const request = await fetch(`http://localhost:3001/api/comments/${id}`, 
+	return await fetch(`http://localhost:3001/api/comments/${id}`, 
 		{
 			method: "PUT",
 			body: JSON.stringify({text: body}),
@@ -130,16 +122,15 @@ export async function updateOneComment(body, id){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function setProfil(body){
 
-	const request = await fetch('http://localhost:3001/api/auth/profil', 
+	return await fetch('http://localhost:3001/api/auth/profil', 
 		{
 			method: "PUT",
 			body: body,
@@ -148,16 +139,14 @@ export async function setProfil(body){
   				"x-Content-Type": "multipart/form-data"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function postOne(body){
-	console.log(body)
-	const request = await fetch('http://localhost:3001/api/posts', 
+	return await fetch('http://localhost:3001/api/posts', 
 		{
 			method: "post",
 			body: body,
@@ -166,17 +155,15 @@ export async function postOne(body){
   				"x-Content-Type": "multipart/form-data"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function updateOnePost(body, id){
 
-	console.log(body)
-	const request = await fetch(`http://localhost:3001/api/posts/${id}`, 
+	return await fetch(`http://localhost:3001/api/posts/${id}`, 
 		{
 			method: "PUT",
 			body: body,
@@ -185,16 +172,15 @@ export async function updateOnePost(body, id){
   				"x-Content-Type": "multipart/form-data"    
  			} 		
  		}
-	);
-
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function likePost(like, id){
 
-	const request = await fetch(`http://localhost:3001/api/posts/like/${id}`, 
+	return await fetch(`http://localhost:3001/api/posts/like/${id}`, 
 		{
 			method: "POST",
 			body: JSON.stringify({ like }),
@@ -203,15 +189,15 @@ export async function likePost(like, id){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function likeComment(like, id){
 
-	const request = await fetch(`http://localhost:3001/api/comments/like/${id}`, 
+	return await fetch(`http://localhost:3001/api/comments/like/${id}`, 
 		{
 			method: "POST",
 			body: JSON.stringify({ like }),
@@ -220,15 +206,25 @@ export async function likeComment(like, id){
   				"Content-Type": "application/json"    
  			} 		
  		}
-	);
-	return request.json();
+	)
+	.then(handleErrors).then(res => res.json());
 	
 
 };
 
 export async function deleteComment(id){
 
-	const request = await fetch(`http://localhost:3001/api/comments/${id}`, {method: "DELETE", credentials: 'include'});
-	return request.json();
+	return await fetch(`http://localhost:3001/api/comments/${id}`, {method: "DELETE", credentials: 'include'})
+	.then(handleErrors).then(res => res.json());
 
+};
+
+
+const handleErrors = response => {
+
+	if(!response.ok)
+	{
+		throw Error(response.statusText);
+	}
+	return response;
 };

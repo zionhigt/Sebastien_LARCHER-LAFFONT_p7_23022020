@@ -2,6 +2,12 @@ html
 {
 	color: #414141;
 	overflow-y: hidden;
+	background-color: #f2f2f2;
+}
+
+aside
+{
+	background-color: white;
 }
 
 header
@@ -9,21 +15,35 @@ header
 	position: fixed;
 	width: 100%;
 	top:0;
+	left: 0;
 	z-index: 200;
+}
+[for^='post_edit']
+{
+	margin-bottom: 20px
+}
+nav, .btn
+{
+	background-color: #13143b !important;
+}
+.divider
+{
+	background-color: #FD2D01 !important;
 }
 main
 {
-	margin-top: 180px!important;
+	margin-top: 10vh!important;
 }
-form
+
 {
 	width: 95%;
 }
 
 textarea
 {
-	height: 200px!important;
+	height: 170px!important;
 }
+
 .modal
 {
 	overflow-x: hidden;
@@ -31,21 +51,71 @@ textarea
 section, .view__aside--right
 {
 	overflow-y: scroll;
-	height: 80vh;
+	height: 90vh;
+}
+.side li, .profil__image--user
+{
+	margin-bottom: 22px !important;
 }
 
+.label-file {
+	display: inline-block;
+    cursor: pointer;
+    color: #00b1ca;
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.date
+{
+	color: #5e5e5e!important;
+}
+.label-file:hover {
+    color: #25a5c4;
+}
+
+.input-file {
+    display: none;
+}
+
+.sidenav__profil img
+{
+	max-width: 150px;
+}
 .signup__title
 {
 	font-size: 22px;
 }
 .collapsible li
 {
-	padding: 15px;
+	padding: 5px;
+}
+.collapsible-body
+{
+	padding: 2rem 0;
+}
+.dropdown-trigger.btn
+{
+	display: block;
+	position: relative;
+	margin-top: 5vh;
+	margin-bottom: 8vh;
+}
+.dropdown-content
+{
+	position: sticky;
+	top: 8vh;
+	padding: 10px;
+	z-index: 200;
+
 }
 .dropdown-content li
 {
 	padding: 0;
 	width: 100%;
+	height: auto;
 }
 
 .dropdown-content li a
@@ -125,9 +195,19 @@ textarea
 	margin-right: 15px;
 }
 
-#onlineContainer
+/*#onlineContainer
 {
 	padding: 15px;
+}*/
+
+.profil__form
+{
+	padding: 10px!important;
+	margin-bottom: 10px;
+}
+.profil__form .input-field
+{
+	margin: 20px 0;
 }
 ul#onlineList
 {
@@ -137,17 +217,22 @@ ul#onlineList
 .modal .containerImg
 {
 	position: relative;
-	max-width: 100px;
+	max-width: 200px;
+	background-color: #f2f2f2;
+	padding: 10px;
 }
-.modal img
+
+.modal .containerImg img
 {
-	max-width: 100px;
+	width: 100%;
 }
+
 .modal .closeImg
 {
 	position: absolute;
-	right: -10px;
-	top: -10px;
+	cursor: pointer;
+	right: -20px;
+	top: -12px;
 }
 img
 {
@@ -181,7 +266,7 @@ img
 
 .card-footer
 {
-	padding: 24px;
+	padding: 15px;
 }
 
 .card-footer__date p
@@ -194,9 +279,61 @@ img
 
 .card-header
 {
-	padding: 15px;
+	position: relative;
+	width: 100%;
+	margin: auto 0!important;
+	padding: 10px;
+	border-radius: 0 0 10px 10px;
 }
 
+.card-header .dropdown-trigger
+{
+	position: absolute;
+	right: 15px;
+}
+
+.card-header .dropdown-content
+{
+	position: fixed;
+	right: 15px;
+}
+
+.card-header img, .sidenav__profil img
+{
+	width: 75px;
+	
+}
+.post__user--picture
+{
+	position: relative;
+}
+.post__user--picture i
+{
+	position: absolute;
+	top: 50px;
+	right: 5px;
+}
+
+.card-title
+{
+	font-weight: bold!important;
+	padding: 20px 5px!important;
+}
+
+
+
+.card-image::after
+{
+	box-sizing: border-box;
+	content: "";
+	display: block;
+	position: relative;
+	width: auto;
+	height: 10px;
+	top: -8px;
+	border-radius: 10px 10px 0 0;
+	background-color: white;
+}
 .like-palet
 {
 	text-align: center;
@@ -210,7 +347,7 @@ img
  .material-icons
  {
  	color: #424242;
- 	margin-right: 15px;
+ 	margin-right: 15px !important;
  }
 
 .active i, i:hover
@@ -220,6 +357,10 @@ img
 .thumb
 {
 	cursor: pointer;
+}
+.thumb i.material-icons
+{
+	margin-right: 8px!important;
 }
 .active .thumb i 
 {
@@ -231,16 +372,22 @@ img
 	width: auto;
 }
 
-.logo
+.icon__group
 {
-	object-fit: cover;
-	justify-self: left;
-	width: 300px;
-	height: 100px;
+	text-align: center;
 }
 
+.logo
+{
+	justify-self: left;
+	width: 300px;
+	height: 60px;
+}
 
-
+.bold
+{
+	font-weight: bold;
+}
 .profil__input
 {
 	display: flex;

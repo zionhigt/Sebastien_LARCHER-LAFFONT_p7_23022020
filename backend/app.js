@@ -19,15 +19,7 @@ const DB = require('./models/DataBase');
 const sessionStore = new MySQLStore(DB.options);
 
 
-
-
-
-// User.updateUser(['email', 'larcher501@gmail.org', 'password', '2565', 'email', 'larcher501@gmail.fr'])
-// .then(res => {console.log(res)})
-// .catch(err => {console.log(err)});
-
 const app = express();
-
 
 
 app.use((req, res, next)=>{

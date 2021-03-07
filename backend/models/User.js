@@ -63,7 +63,6 @@ exports.deleteUser = customer =>{
 exports.createProfil = Profil =>{
 	let query = 'INSERT INTO Profils (firstName, lastName, user_id, created_date, picture) VALUES (?, ?, (SELECT id FROM Users WHERE email=?), NOW(), ?)';
 	query = mysql.format(query, Profil);
-	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
@@ -74,8 +73,6 @@ exports.createProfil = Profil =>{
 
 exports.updateProfil = (profil, id) =>{
 	const payload = [...Object.values(profil), id]
-	console.log(profil)
-  // Preparing mysql query
   	let query = mysql.format(`UPDATE Profils SET ${Object.keys(profil).join(' = ?, ')}= ? WHERE id = ?`, payload);
 	return new Promise((resolv, reject) => {
 		if(JSON.stringify(profil).length > 2)
@@ -95,7 +92,6 @@ exports.updateProfil = (profil, id) =>{
 exports.getProfil = (id) => {
 	let query = 'SELECT id, firstName, lastName, picture FROM Profils WHERE user_id = ?';
 	query = mysql.format(query, [id]);
-	console.log(query);
 	return new Promise((resolv, reject) => {
 		DB.dbConnect.query(query, (error, res, field) => {
 			if (error) reject(error);
