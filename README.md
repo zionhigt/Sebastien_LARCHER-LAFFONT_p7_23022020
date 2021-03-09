@@ -25,6 +25,7 @@ Pour le server Web l'application et développée avec Express et Express-session
 ** Installation rapide ** 
 
 Installer le fichier mysql/createTables.sql pour un base de données vierge, generateData.sql pour obtenir un bourage de données.
+Créez une [table de données pour les sessions](https://github.com/chill117/express-mysql-session/blob/master/schema.sql)
 Créez un fichier backend/env/.env_dev. Déposez y vos identifiants de base de données suivant backend/env/.env_template.
 
 Dans le dossier backend exécutez:

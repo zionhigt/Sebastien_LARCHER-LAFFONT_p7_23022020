@@ -4,6 +4,7 @@ import Header from './Header.js';
 import { connect } from 'react-redux';
 
 import { getUserProfil } from '../Store/actions/profilAction.js';
+import { disconnectUser } from '../Store/actions/profilAction.js';
 
 import * as API from '../api/api.js';
 
@@ -70,10 +71,7 @@ class Profil extends Component {
 	deleteAcountHandler(){
 		API.killMe()
 		.then(() => {
-			API.signout()
-			.then(message => {console.log(message)})
-			.catch(error => {console.log(error)});
-			window.location = "/?#/signin"; 
+			this.props.dispatch(disconnectUser())
 		})
 		.catch(error => { console.log(error)})
 	}

@@ -73,7 +73,10 @@ class EditPost extends Component {
 		{
 			const post_id = parseInt(this.props.modal.split("modalUpdatePost")[1])
 			API.updateOnePost(formData, post_id)
-			.then(() => {this.props.onPosted(parseInt(post_id))})
+			.then(() => {
+				console.log(this.props)
+				this.props.onPosted(parseInt(post_id))
+			})
 			.catch(error => {console.log({ error })});
 		}
 	}

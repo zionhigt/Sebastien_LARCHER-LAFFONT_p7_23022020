@@ -63,7 +63,6 @@ class Post extends Component {
 	}
 
 	render(){
-
 		return (
 
 			<div className="col s12 " id={`post_${this.props.idkey}`} >
@@ -85,7 +84,7 @@ class Post extends Component {
 							<li className="divider"></li>
 							<li><a onClick={this.deleteHandler} ><i className="material-icons">delete</i>Supprimer</a></li>
 						</ul>
-						<EditPost text={this.props.text} title={this.props.title} postPicture={this.props.media.url} modal={`modalUpdatePost${this.props.idkey}`} onPosted={this.props.onChangePost} />
+						<EditPost text={this.props.text} title={this.props.title} postPicture={this.props.media.url} modal={`modalUpdatePost${this.props.idkey}`} onPosted={this.props.onUpdate} />
 						</>:
 						 null }					
 

@@ -21,6 +21,7 @@ export const disconnectUser = () =>{
 		API.signout()
 		.then(message => {
 			dispatch(disconnectSuccess());
+			console.log('disconnect');
 			window.location = "/?#/signin";
 			return message;
 		})

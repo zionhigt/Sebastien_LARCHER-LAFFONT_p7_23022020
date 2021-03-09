@@ -2,5 +2,6 @@ backend/env/.env_dev
 backend/node_modules
 backend/images/*
 
-frontend/scss
 frontend/node_modules
+
+soutenance

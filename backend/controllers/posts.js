@@ -22,7 +22,7 @@ exports.posting = (req, res) => {
 	let body = JSON.parse(req.body.body)
 	let post = {
 		title: (body.title) ? body.title : null,
-		description: (body.text) ? body.text : null,
+		description: (body.text || body.text == "") ? body.text : null,
 		profil_id: (req.session.profil.id) ? req.session.profil.id : null
 	}
 	if(req.file != undefined)
@@ -118,7 +118,7 @@ exports.updateOne = (req, res) => {
 	let isMedia = false;
 	let post = {
 		title: (body.title) ? body.title : null,
-		description: (body.text) ? body.text : null,
+		description: (body.text || body.text == "") ? body.text : null,
 	}
 	if(req.file != undefined)
 	{
@@ -142,7 +142,6 @@ exports.updateOne = (req, res) => {
 		}
 		if(old_post.posted_by_id == req.session.profil.id)
 		{
-			
 			Posts.updateOnePost(post , parseInt(req.params.id))
 			.then(() => {
 				

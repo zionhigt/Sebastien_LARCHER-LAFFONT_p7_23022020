@@ -14,7 +14,11 @@ class Disconnect extends Component {
 
 	clickHandler(e){
 		this.props.dispatch(disconnectUser());
-		this.props.closeAction(); 
+		if(this.props.closeAction)
+		{
+			console.log(this.props)
+			this.props.closeAction(); 
+		}
 	}
 
 	render(){

@@ -73,11 +73,6 @@ class Forum extends Component {
 
 			this.props.dispatch(getUserProfil());
 			this.props.dispatch(getOthers());
-			this.props.dispatch(getAllPosts());
-			const elemCircle = document.querySelectorAll('img.circle');
-			elemCircle.forEach(elem => {
-				elem.style.height = `${elem.width}px`;		    	
-			})
 
 		}
 		else
@@ -85,6 +80,11 @@ class Forum extends Component {
 
 			this.builtin();
 		}
+		this.props.dispatch(getAllPosts());
+		const elemCircle = document.querySelectorAll('img.circle');
+		elemCircle.forEach(elem => {
+			elem.style.height = `${elem.width}px`;		    	
+		})
 
 	}
 
@@ -93,7 +93,7 @@ class Forum extends Component {
 		this.builtin();
 		const elemDropDown = document.querySelectorAll('.dropdown-trigger');
 		const dropDown = M.Dropdown.init(elemDropDown, {coverTrigger: true, alignment: 'right'});
-		const elemCircle = document.querySelectorAll('img.circle');
+		const elemCircle = document.querySelectorAll('img .circle');
 		elemCircle.forEach(elem => {
 			elem.style.height = `${elem.width}px`;		    	
 		})
